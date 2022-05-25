@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    
+    
+    <script src="node_modules/highcharts/highcharts.js"></script>
+    <script src="node_modules/highcharts/modules/boost.js"></script>
+    <script src="node_modules/highcharts/modules/data.js"></script>
+    <script src="node_modules/papaparse/papaparse.js"></script>
+    <script>
+            //enabling disability features  
+            accessibility.enabled = true;
+
+        //look, graph stuff
+        function drawGraph(){
+//document.addEventListener('DOMContentLoaded', function () {
+Highcharts.chart('container', {
+
+    chart: {
+        zoomType: 'x',
+        panning: true,
+        panKey: 'shift'
+    },
+
+    boost: {
+        useGPUTranslations: true
+    },
+
+    title: {
+        text: 'Logs'
+    },
+
+    tooltip: {
+        valueDecimals: 2
+    },
+
+    series: [{
+    csv: document.getElementById("uploadedFile").files[0]
+    }]
+
+});
+
+
+//});
+
+        }
+//logging parsed csv to console for debug
+    function logCSV(){
+    //should log csv to console for debugging
+    Papa.parse(document.getElementById("uploadedFile").files[0], {
+    complete: async function(results, file){
+        //f is the uploaded file
+        let f = results.data;
+        //neat little object where all results are kept
+        let formObj = {};
+        //f[0] is the title of each column
+        for(let i in f){
+                formObj[f[0][i]] = []; 
+        }
+        //looping through, demessing up the arrays
+        for(let i = 1; i < f.length; i++){
+            for(let j in f[0]){
+                for(let k in formObj){
+                    formObj[k].push(f[i][j])
+                }  
+            }
+        }
+ 
+       await console.log(formObj)
+      //  console.log(formObj)
+        
+           // console.log(formObj);
+    }
+})
+}
+
+            document.getElementById("uploadedFile").addEventListener("change", drawGraph);
+
+    </script>
+    <title>HWinfo Online View</title>
+
+
+
+</head>
+<body>
+    <input type="file" id="uploadedFile">
+
+
+    <div id="container" style="width:100%; height:400px;"></div>
+</body>
+</html>

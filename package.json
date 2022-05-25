@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "highcharts": "^10.1.0",
+    "papaparse": "^5.3.2"
+  }
+}
