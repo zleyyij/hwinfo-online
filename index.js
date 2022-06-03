@@ -9,34 +9,34 @@
                 useGPUTranslations: true
             },
 
-            title: {
-                text: divName
-            },
+		title: {
+			text: divName
+		},
 		xAxis: {
 			tickInterval: 100
-            },	
-	
-            series: srs
+		},	
+
+		series: srs
 
 
 	}	
-        //see if there's an array called Time if xTime is true(should be for all hwinfo logs)
-	//in the same line see if the Time element exists in formObj
-        if(conf.xTime == true && "Time" in formObj){
-		graphSettings.xAxis.categories = stripMs(formObj["Time"]);
+	    //see if there's an array called Time if xTime is true(should be for all hwinfo logs)
+	    //in the same line see if the Time element exists in formObj
+	    if(conf.xTime == true && "Time" in formObj){
+		    graphSettings.xAxis.categories = stripMs(formObj["Time"]);
 
-        }
-        Highcharts.chart(divName, graphSettings);
+	    }
+	    Highcharts.chart(divName, graphSettings);
     }
 //stripping ms with regex cuz it looks nice 
 //this function is only used exactly *one* time 
-    function stripMs(strip){
-        //stripping from each element in the array
-      //  if(Array.isArray(strip)){
-            for(let i in strip){
+function stripMs(strip){
+	//stripping from each element in the array
+	//  if(Array.isArray(strip)){
+	for(let i in strip){
 		if(/\d{1,2}:\d{1,2}:\d{1,2}/g.exec(strip[i])!== null){
-                strip[i] = /\d{1,2}:\d{1,2}:\d{1,2}/g.exec(strip[i])[0];   
-		
+			strip[i] = /\d{1,2}:\d{1,2}:\d{1,2}/g.exec(strip[i])[0];   
+
 
 		}
 	}
@@ -44,14 +44,14 @@
 }
 
 
-    function parseCSV() {
+function parseCSV() {
 	//I am incredibly sorry to have created this nightmare
-        Papa.parse(document.getElementById("uploadedFile").files[0],  {
+	Papa.parse(document.getElementById("uploadedFile").files[0],  {
 		complete: async function(results){
-                //f is the uploaded file
-                let f = results.data;
-                //f[0] is the title of each column
-                for (let i in f[0]) {
+			//f is the uploaded file
+			let f = results.data;
+			//f[0] is the title of each column
+			for (let i in f[0]) {
                     formObj[f[0][i]] = [];
                 }
                 //looping through, demessing up the arrays
@@ -109,23 +109,22 @@ function genDivFromObj(){
 	let srs = [];
 	//I'm sure there's a much more efficient way to do this	
 	//definitely with a function
-	console.log("you are going insane");
+		//regex.exec to check against, data to push, and visibility state
+	function pushRegex(r, d, v){
+			if(r !== null){
+				srs.push({name: d,  data: formObj[d], visible: v});
+			}	
+
+		}
+	createDiv("CPU Temps", "charts");
 	for(let i in formObj){
 		//cpu temps
-	if(/(CPU \[)(.*)(C])/g.exec(i) !== null){
-		srs.push({name: i, data: formObj[i]});
+	pushRegex(/(CPU \[)(.*)(C])/g.exec(i), i, true);
 
-	}
-	if(/(Core Temperatures)/g.exec(i) !== null){
-		srs.push({name: i, data: formObj[i]});
-	}
-	if(/(CCD)(\d{1,2})(.*)(C])/gi.exec(i) !== null){
-		srs.push({name: i, data: formObj[i], visible: false});
+	pushRegex(/(Core Temperatures)/g.exec(i), i, true);
 
+	pushRegex(/(CCD)(\d{1,2})(.*)(C])/gi.exec(i), i, false);
 	}
-
-	}
-	createDiv("CPU Temps", "charts");
 	drawGraph(srs, "CPU Temps", {
 	xTime: true
 	});
