@@ -86,11 +86,13 @@ function parseCSV() {
     }
 //generating a spot for each chart to live
 function createDiv(id, classNm){
+	if(document.getElementById(id) === null){
 	let div = document.createElement("div");
 	div.className = classNm;
 	div.id=id;
 	if(!document.getElementById(id)){
 	document.body.appendChild(div);
+	}
 	}
 }
 function genDivFromObj(){
@@ -109,6 +111,7 @@ function genDivFromObj(){
 	let srs = [];
 	//I'm sure there's a much more efficient way to do this	
 	//definitely with a function
+	//maybe an array of regex stuff to check against
 		//regex.exec to check against, data to push, and visibility state
 	function pushRegex(r, d, v){
 			if(r !== null){
@@ -116,6 +119,7 @@ function genDivFromObj(){
 			}	
 
 		}
+	//generating the cpu temps graph
 	createDiv("CPU Temps", "charts");
 	for(let i in formObj){
 		//cpu temps
@@ -124,11 +128,28 @@ function genDivFromObj(){
 	pushRegex(/(Core Temperatures)/g.exec(i), i, true);
 
 	pushRegex(/(CCD)(\d{1,2})(.*)(C])/gi.exec(i), i, false);
+	
+	pushRegex(/(CPU IOD)/g.exec(i), i, false);
+	
+	pushRegex(/(CPU \(Tctl)/g.exec(i), i, false);
 	}
 	drawGraph(srs, "CPU Temps", {
 	xTime: true
 	});
-	
+	//clearing srs to be used again
+	srs = [];
+		//cpu clocks, would do gpu temps but this way you can more easily A to B compare the two
+	createDiv("CPU Clocks", "charts");
+	for(let i in formObj){
+		//generic grab for core clocks
+		pushRegex(/(Core)(.*)(Clock )/gi.exec(i), i, false);
+		//sketchy grab for average clocks
+		pushRegex(/(Core)(.*)(Clocks)/gi.exec(i), i, true);
+
+	}
+	drawGraph(srs, "CPU Clocks", {
+	xTime: true
+	});
 
 
 	}
