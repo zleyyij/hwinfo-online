@@ -4,6 +4,11 @@
     let nonGraphed = {};
                     //time, data, name of div to insert graph, config
     function drawGraph(srs=[], divName, conf) {
+	    /* Current config options:
+	     * xTime: search for time within the parsed csv, and try to use it instead of datapoints on the x axis
+	     *
+	     *
+	     * */
 	let graphSettings = {
             boost: {
                 useGPUTranslations: true
@@ -107,6 +112,9 @@ function genDivFromObj(){
 }
 //parsing the object, consolidating graphs, sorting them, so on and so forth
 	function buildGraphs(){
+/*****************************************************
+ * XKCD 974					     *
+ ****************************************************/
 	//arbitrary use case specific alterations
 	let srs = [];
 	//I'm sure there's a much more efficient way to do this	
@@ -138,6 +146,8 @@ function genDivFromObj(){
 	});
 	//clearing srs to be used again
 	srs = [];
+
+
 		//cpu clocks, would do gpu temps but this way you can more easily A to B compare the two
 	createDiv("CPU Clocks", "charts");
 	for(let i in formObj){
@@ -150,8 +160,62 @@ function genDivFromObj(){
 	drawGraph(srs, "CPU Clocks", {
 	xTime: true
 	});
+	srs = [];
 
 
+
+		//gpu temps, fairly self explainatory.
+	createDiv("GPU Temps", "charts");
+	for(let i in formObj){
+		//one *terrible* catchall regex statement that will go horribly wrong
+		pushRegex(/(GPU)(.*)(C\])/gi.exec(i), i, true);
+		
+
+	}
+	drawGraph(srs, "GPU Temps", {
+	xTime: true
+	});
+	srs = [];
+	//it is at this point in this monstrosity that I consider why I shouldn't have just done more functions
+	//maybe quit programming and become a carpenter
+	
+	//GPU Clocks
+	createDiv("GPU Clocks", "charts");
+	for(let i in formObj){
+		//look mom, my code is inconsistent as well as nonfunctional
+		//*useless comments*
+		pushRegex(/(GPU Video)(.*)(Mhz\])/gi.exec(i), i, true);
+	}
+	drawGraph(srs, "GPU Clocks", {xTime: true});
+	srs = [];
+
+
+	//various voltages, fairly self explainatory at this point, refer to the other
+	//useless commments if you want something to read besides my code
+	createDiv("3.3v", "charts");
+	for(let i in formObj){
+		pushRegex(/(\+3.3V \[V\])/gi.exec(i) , i, true);
+
+	}
+	drawGraph(srs, "3.3v", {xTime: true});
+	srs = [];
+	
+	createDiv("5v", "charts");
+	for(let i in formObj){
+	//This statement is *more* thorough than the others, for *no* reason
+	pushRegex(/(\+5V \[V\])/gi.exec(i), i, true);
+
+	}
+	drawGraph(srs, "5v", {xTime: true});
+	srs = [];
+
+	createDiv("12v", "charts");
+	for(let i in formObj){
+	pushRegex(/(\+12V \[V\])/gi.exec(i), i, true);
+
+	}
+	drawGraph(srs, "12v", {xTime: true});
+	srs = [];
 	}
 
 
