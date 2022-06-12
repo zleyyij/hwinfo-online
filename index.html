@@ -19,7 +19,10 @@
 </head>
 <body>
     <input type="file" id="uploadedFile">
+    <input type="text" id="graphSearch" onkeyup="filterSearch()" placeholder="Add a graph before rendering"</input>
     <button onclick="buildGraphs()">Go</button>
+    <ul id="searchResults">
 
+    </ul>
     <div id="container" style="width:100%;"></div>
 </body></html>

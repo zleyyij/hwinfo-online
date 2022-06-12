@@ -1,10 +1,16 @@
 //neat little object where all results are kept
     let formObj = {};
     //data that is not graphed, EG(Time)
+    //actually currently not used, but might later
     let nonGraphed = {};
+    //Global config options
+    let drawGraphConf = {
+	xTime: true,
+    }
+
                     //time, data, name of div to insert graph, config
     function drawGraph(srs=[], divName, conf) {
-	    /* Current config options:
+	/* Current config options:
 	     * xTime: search for time within the parsed csv, and try to use it instead of datapoints on the x axis
 	     *
 	     *
@@ -89,17 +95,33 @@ function parseCSV() {
             }
         });
     }
+
+//maybe consolidate createDiv and createLi into one 
 //generating a spot for each chart to live
 function createDiv(id, classNm){
 	if(document.getElementById(id) === null){
-	let div = document.createElement("div");
-	div.className = classNm;
-	div.id=id;
-	if(!document.getElementById(id)){
-	document.body.appendChild(div);
-	}
+		let div = document.createElement("div");
+		div.className = classNm;
+		div.id=id;
+	
+		if(!document.getElementById(id)){
+			document.body.appendChild(div);
+		}
 	}
 }
+
+
+
+function createLi(content, id, classNm){
+	let li = document.createElement("li");
+	li.className = classNm;
+	li.id = id;
+	li.textContent = content;
+
+
+
+}
+
 function genDivFromObj(){
 	for(var i in formObj){
 		createDiv(i, "charts");
@@ -110,6 +132,8 @@ function genDivFromObj(){
 	}
 
 }
+
+
 //parsing the object, consolidating graphs, sorting them, so on and so forth
 	function buildGraphs(){
 /*****************************************************
@@ -141,9 +165,7 @@ function genDivFromObj(){
 	
 	pushRegex(/(CPU \(Tctl)/g.exec(i), i, false);
 	}
-	drawGraph(srs, "CPU Temps", {
-	xTime: true
-	});
+	drawGraph(srs, "CPU Temps", drawGraphConf);
 	//clearing srs to be used again
 	srs = [];
 
@@ -186,7 +208,7 @@ function genDivFromObj(){
 		//*useless comments*
 		pushRegex(/(GPU Video)(.*)(Mhz\])/gi.exec(i), i, true);
 	}
-	drawGraph(srs, "GPU Clocks", {xTime: true});
+	drawGraph(srs, "GPU Clocks", drawGraphConf);
 	srs = [];
 
 
@@ -197,7 +219,7 @@ function genDivFromObj(){
 		pushRegex(/(\+3.3V \[V\])/gi.exec(i) , i, true);
 
 	}
-	drawGraph(srs, "3.3v", {xTime: true});
+	drawGraph(srs, "3.3v", drawGraphConf);
 	srs = [];
 	
 	createDiv("5v", "charts");
@@ -206,7 +228,7 @@ function genDivFromObj(){
 	pushRegex(/(\+5V \[V\])/gi.exec(i), i, true);
 
 	}
-	drawGraph(srs, "5v", {xTime: true});
+	drawGraph(srs, "5v", drawGraphConf);
 	srs = [];
 
 	createDiv("12v", "charts");
@@ -214,7 +236,7 @@ function genDivFromObj(){
 	pushRegex(/(\+12V \[V\])/gi.exec(i), i, true);
 
 	}
-	drawGraph(srs, "12v", {xTime: true});
+	drawGraph(srs, "12v", drawGraphConf);
 	srs = [];
 	}
 
