@@ -165,7 +165,9 @@ function genDivFromObj(){
 	
 	pushRegex(/(CPU \(Tctl)/g.exec(i), i, false);
 	}
+	if(srs.length > 0){
 	drawGraph(srs, "CPU Temps", drawGraphConf);
+	}
 	//clearing srs to be used again
 	srs = [];
 
@@ -179,9 +181,7 @@ function genDivFromObj(){
 		pushRegex(/(Core)(.*)(Clocks)/gi.exec(i), i, true);
 
 	}
-	drawGraph(srs, "CPU Clocks", {
-	xTime: true
-	});
+	drawGraph(srs, "CPU Clocks", drawGraphConf);
 	srs = [];
 
 
@@ -217,6 +217,7 @@ function genDivFromObj(){
 	createDiv("3.3v", "charts");
 	for(let i in formObj){
 		pushRegex(/(\+3.3V \[V\])/gi.exec(i) , i, true);
+		pushRegex(/(3VCC \[V\])/gi.exec(i), i, true);
 
 	}
 	drawGraph(srs, "3.3v", drawGraphConf);
