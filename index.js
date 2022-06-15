@@ -45,10 +45,11 @@ function stripMs(strip) {
   return strip;
 }
 
-function parseCSV() {
+async function parseCSV() {
+  console.time("CSV parsing time");
   //I am incredibly sorry to have created this nightmare
   Papa.parse(document.getElementById("uploadedFile").files[0], {
-    complete: async function (results) {
+    complete: function (results) {
       //f is the uploaded file
       let f = results.data;
       //f[0] is the title of each column
@@ -80,6 +81,7 @@ function parseCSV() {
       //moving time to the nongraphed array
     }
   });
+  console.timeEnd("CSV parsing time");
 }
 
 //maybe consolidate createDiv and createLi into one
@@ -96,11 +98,57 @@ function createDiv(id, classNm) {
   }
 }
 
-function createLi(content, id, classNm) {
-  let li = document.createElement("li");
-  li.className = classNm;
-  li.id = id;
-  li.textContent = content;
+function createButtonLi(name, dataToDraw, id) {
+  if (document.getElementById(id) === null) {
+    let li = document.createElement("li");
+    let btn = document.createElement("button");
+    btn.innerHTML = name;
+    btn.id = id;
+    btn.onclick = function () {
+      quickGraph(name, dataToDraw);
+    };
+    document.getElementById("searchResults").appendChild(li).appendChild(btn);
+  }
+}
+
+function quickGraph(name, arr) {
+  createDiv(name, "charts");
+  drawGraph([{ name: name, data: arr, visible: true }], name, drawGraphConf);
+}
+//filtering the search results
+function filterSearch() {
+  //https://www.w3schools.com/howto/howto_js_search_menu.asp
+  let input, li, button;
+  input = document.getElementById("graphSearch").value.toLowerCase();
+  li = document.getElementById("searchResults").getElementsByTagName("li");
+  if (input.length > 0) {
+    makeSearchResults();
+    //hide stuff that doesn't match the search query
+    for (let i = 0; i < li.length; i++) {
+      button = li[i].getElementsByTagName("button")[0];
+      if (button.innerHTML.toLowerCase().indexOf(input) != -1) {
+        li[i].style.display = "";
+      } else {
+        li[i].style.display = "none";
+      }
+    }
+  } else {
+    for (let i = 0; i < li.length; i++) {
+      li[i].style.display = "none";
+    }
+  }
+}
+
+//generating a bunch of buttons for the graph menu
+function makeSearchResults() {
+  //make sure it hasn't already been made
+  if (
+    document.getElementById("searchResults").getElementsByTagName("li") !== null
+  ) {
+    for (let i in formObj) {
+      createButtonLi(i, formObj[i], i + "-button");
+    }
+  }
 }
 
 function genDivFromObj() {
@@ -115,6 +163,7 @@ function genDivFromObj() {
 
 //parsing the object, consolidating graphs, sorting them, so on and so forth
 function buildGraphs() {
+  console.time("Building graphs");
   /*****************************************************
    * XKCD 974					     *
    ****************************************************/
@@ -207,8 +256,13 @@ function buildGraphs() {
   }
   drawGraph(srs, "12v", drawGraphConf);
   srs = [];
-}
 
+  console.timeEnd("Building graphs");
+}
+function goButtonPressed(){
+parseCSV().then(async(res)  => {await buildGraphs()});
+
+}
 //calling things at the appropriate time
 window.onload = function () {
   //enabling disability features
@@ -219,8 +273,8 @@ window.onload = function () {
   document
     .getElementById("uploadedFile")
     .addEventListener("change", async () => {
-      parseCSV();
-      //	genDivFromObj()
-      buildGraphs();
+   //   parseCSV();
+   //   //	genDivFromObj()
+   //   buildGraphs();
     });
 };

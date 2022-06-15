@@ -14,15 +14,20 @@
     <title>HWinfo Online View</title>
   </head>
   <body>
+    <div>
+      <input
+        type="text"
+        id="graphSearch"
+        class="searchbar"
+        onkeyup="filterSearch()"
+        placeholder="Add a new graph from the CSV"
+      />
+
+      <ul id="searchResults" style="list-style: none"></ul>
+    </div>
+   <div>
     <input type="file" id="uploadedFile" />
-    <input
-      type="text"
-      id="graphSearch"
-      onkeyup="filterSearch()"
-      placeholder="Add a graph before rendering"
-    />
-    <button onclick="buildGraphs()">Go</button>
-    <ul id="searchResults"></ul>
-    <div id="container" style="width: 100%"></div>
+    <button onclick="goButtonPressed()">Go</button>
+   </div>
   </body>
 </html>
