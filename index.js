@@ -79,9 +79,11 @@ async function parseCSV() {
         }
       }
       //moving time to the nongraphed array
+
+      console.timeEnd("CSV parsing time");
+      buildGraphs();
     }
   });
-  console.timeEnd("CSV parsing time");
 }
 
 //maybe consolidate createDiv and createLi into one
@@ -133,9 +135,9 @@ function filterSearch() {
       }
     }
   } else {
-    for (let i = 0; i < li.length; i++) {
-      li[i].style.display = "none";
-    }
+    //    for (let i = 0; i < li.length; i++) {
+    //      li[i].style.display = "none";
+    //    }
   }
 }
 
@@ -259,22 +261,37 @@ function buildGraphs() {
 
   console.timeEnd("Building graphs");
 }
-function goButtonPressed(){
-parseCSV().then(async(res)  => {await buildGraphs()});
-
+function goButtonPressed() {
+  parseCSV();
 }
+
 //calling things at the appropriate time
 window.onload = function () {
   //enabling disability features
   //broken now, shoulud fix later
-  //            accessibility.enabled = true;
+  //            accessibility.enabled = true
+
+  //make graph go away if nein, make graph come back if ja
+  document.getElementById("searchResults").addEventListener("blur", function () {
+    let li = document
+      .getElementById("searchResults")
+      .getElementsByTagName("li");
+    for (let i = 0; i < li.length; i++) {
+      li[i].style.display = "none";
+    }
+   // document.getElementById("graphSearch").value = "";
+  });
+
+  document.getElementById("graphSearch").addEventListener("focus", function () {
+    let li = document
+      .getElementById("searchResults")
+      .getElementsByTagName("li");
+    for (let i = 0; i < li.length; i++) {
+      li[i].style.display = "";
+    }
+  });
 
   //wait for file to upload, then parse it and modify the html to include one div per chart
-  document
-    .getElementById("uploadedFile")
-    .addEventListener("change", async () => {
-   //   parseCSV();
-   //   //	genDivFromObj()
-   //   buildGraphs();
-    });
+
+
 };

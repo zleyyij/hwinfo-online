@@ -16,11 +16,11 @@
   font-size: 18px;
   padding: 0;
   margin: 0;
-  position:absolute;
+  position: absolute;
   z-index: 200;
 }
 #searchResults li button {
-  display: block;
+  display: inline-block;
   /* padding: 12px;*/
   width: 100%;
 }
