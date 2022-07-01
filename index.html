@@ -14,6 +14,11 @@
     <title>HWinfo Online View</title>
   </head>
   <body>
+     <div class = "graphui">
+     <div style = "flex-direction:row;">
+      <input type="file" id="uploadedFile" style="width:50%;"/>
+      <button onclick="goButtonPressed()" style="width:50;">Go</button>
+    </div>
     <div id="searchDiv">
       <input
         type="text"
@@ -25,9 +30,9 @@
 
       <ul id="searchResults" style="list-style: none"></ul>
     </div>
-    <div>
-      <input type="file" id="uploadedFile" />
-      <button onclick="goButtonPressed()">Go</button>
+    </div>
+    <div id="chartDiv">
+
     </div>
   </body>
 </html>

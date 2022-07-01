@@ -14,6 +14,9 @@ function drawGraph(srs = [], divName, conf) {
    * xTime: search for time within the parsed csv, and try to use it instead of datapoints on the x axis
    */
   let graphSettings = {
+   // chart: {
+      width: "100%",
+    //},
     boost: {
       useGPUTranslations: true
     },
@@ -82,6 +85,7 @@ async function parseCSV() {
 
       console.timeEnd("CSV parsing time");
       buildGraphs();
+      makeSearchResults();
     }
   });
 }
@@ -95,7 +99,7 @@ function createDiv(id, classNm) {
     div.id = id;
 
     if (!document.getElementById(id)) {
-      document.body.appendChild(div);
+      document.getElementById("chartDiv").appendChild(div);
     }
   }
 }
@@ -135,9 +139,9 @@ function filterSearch() {
       }
     }
   } else {
-    //    for (let i = 0; i < li.length; i++) {
-    //      li[i].style.display = "none";
-    //    }
+        for (let i = 0; i < li.length; i++) {
+          li[i].style.display = "";
+        }
   }
 }
 
@@ -272,15 +276,15 @@ window.onload = function () {
   //            accessibility.enabled = true
 
   //make graph go away if nein, make graph come back if ja
-  document.getElementById("searchResults").addEventListener("blur", function () {
-    let li = document
-      .getElementById("searchResults")
-      .getElementsByTagName("li");
-    for (let i = 0; i < li.length; i++) {
-      li[i].style.display = "none";
-    }
-   // document.getElementById("graphSearch").value = "";
-  });
+//  document.getElementById("searchDiv").addEventListener("mouseout", function () {
+//    let li = document
+//      .getElementById("searchResults")
+//      .getElementsByTagName("li");
+//    for (let i = 0; i < li.length; i++) {
+//      li[i].style.display = "none";
+//    }
+//   // document.getElementById("graphSearch").value = "";
+//  });
 
   document.getElementById("graphSearch").addEventListener("focus", function () {
     let li = document
@@ -289,6 +293,16 @@ window.onload = function () {
     for (let i = 0; i < li.length; i++) {
       li[i].style.display = "";
     }
+  });
+  document.getElementById("searchDiv").addEventListener("focus", function (){
+
+    let li = document
+      .getElementById("searchResults")
+      .getElementsByTagName("li");
+    for (let i = 0; i < li.length; i++) {
+      li[i].style.display = "";
+    }
+
   });
 
   //wait for file to upload, then parse it and modify the html to include one div per chart
