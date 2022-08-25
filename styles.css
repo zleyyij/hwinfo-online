@@ -1,25 +1,24 @@
 body {
 display: flex;
-
-
-
 }
 
 #chartDiv {
 flex-grow: 1;
 width: 10%;
 flex-shrink: 0;
-
+position: relative;
 }
 .charts {
   /*margin: auto;*/
   padding-top: 10px;
   padding-bottom: 10px;
-  width: 100%;
+  margin-left: 220px;
+  
+  width: 80%;
   flex-direction:column;
   flex-grow:1;
   flex-shrink:0;
- /* z-index: 0; */
+  z-index: 0; 
 }
 .searchbar {
   width: 96%;
@@ -32,9 +31,10 @@ flex-shrink: 0;
   font-size: 18px;
   padding: 0;
   margin: 0;
-  overflow:scroll;
+   overflow-y: scroll; 
+  height: 500px;
  /* position: absolute;*/
- /* z-index: 200; */
+  z-index: 200; 
 }
 #searchResults li button {
   display: inline-block;
@@ -46,11 +46,12 @@ width: 200px;
 position: relative;
 top: 0;
 left: 0;
-overflow-y:auto;
+
 }
 .graphui {
-flex-direction:column; 
+position: fixed;
+flex-direction:column;
 border-style:solid;
-height: 100%;
 width: 200px;
+z-index: 20;
 }
