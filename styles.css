@@ -1,5 +1,7 @@
 body {
 display: flex;
+background-color: #2E3440;
+
 }
 
 #chartDiv {
@@ -38,8 +40,19 @@ position: relative;
 }
 #searchResults li button {
   display: inline-block;
-  /* padding: 12px;*/
   width: 100%;
+  background-color: #434C5E;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition-duration: 0.42;
+}
+#searchResults li button:hover{
+background-color: #3B4252;
 }
 #searchDiv {
 width: 200px;
@@ -54,4 +67,19 @@ flex-direction:column;
 border-style:solid;
 width: 200px;
 z-index: 20;
+}
+
+.button:hover{
+background-color: #3B4252;
+}
+.button {
+  background-color: #434C5E;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition-duration: 0.2s;
 }
