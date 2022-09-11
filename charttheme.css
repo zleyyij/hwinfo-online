@@ -3,3 +3,13 @@
 .highcharts-background {
     fill: #3B4252;
 }
+
+
+.highcharts-title, .highcharts-subtitle, .highcharts-yaxis .highcharts-axis-title {
+
+fill:white;
+stroke:white;
+color:white;
+
+
+}

@@ -7,6 +7,62 @@ let nonGraphed = {};
 let drawGraphConf = {
   xTime: true
 };
+
+//highcharts theming
+Highcharts.theme = {
+  //  colors: ['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572',
+  //           '#FF9655', '#FFF263', '#6AF9C4'],
+    chart: {
+        backgroundColor: {
+           linearGradient: [0, 0, 500, 500],
+            stops: [
+                [0, 'rgb(255, 255, 255)'],
+                [1, 'rgb(240, 240, 255)']
+            ]
+        },
+    },
+    title: {
+        style: {
+            color: '#FFFFFF',
+        }
+    },
+    subtitle: {
+        style: {
+            color: '#FFFFFF',
+        }
+    },
+    legend: {
+        itemStyle: {
+		color:'#FFFFFF'
+        },
+        itemHoverStyle:{
+            color: 'gray'
+        }
+    },
+    xAxis: {
+	labels: {
+	     style: {
+		color:'#FFFFFF'
+	     }
+	}
+    },
+    yAxis: {
+         labels: {
+              style: {
+	        color:'#FFFFFF'
+	      }
+         }
+}
+
+};
+// Apply the theme
+Highcharts.setOptions(Highcharts.theme);
+
+
+
+
+
+
 //time, data, name of div to insert graph, config
 function drawGraph(srs = [], divName, conf) {
   /* Current config options:
