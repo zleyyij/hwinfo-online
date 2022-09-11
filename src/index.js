@@ -264,9 +264,14 @@ function buildGraphs() {
 
   console.timeEnd("Building graphs");
 }
-function goButtonPressed() {
+var upCheck = document.getElementById('uploadedFile');
+upCheck.onchange = function(){
   parseCSV();
-}
+};
+
+/*function goButtonPressed() {
+  parseCSV();
+}*/
 
 //calling things at the appropriate time
 window.onload = function () {

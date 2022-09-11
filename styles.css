@@ -1,6 +1,6 @@
 body {
 display: flex;
-background-color: #2E3440;
+background-color: #3B4252;
 
 }
 
@@ -23,7 +23,7 @@ position: relative;
   z-index: 0; 
 }
 .searchbar {
-  width: 96%;
+  width: 100%;
   padding: 0;
   margin: 0;
 }
@@ -32,19 +32,20 @@ position: relative;
   width: 100%;
   font-size: 18px;
   padding: 0;
-  margin: 0;
+  margin-top: 2%;
+  margin-left: -7%;
    overflow-y: scroll; 
-  height: 500px;
- /* position: absolute;*/
+
+  position: absolute;
   z-index: 200; 
 }
 #searchResults li button {
   display: inline-block;
   width: 100%;
-  background-color: #434C5E;
-  border: none;
+  background-color: #B48EAD;
+  border: 1px solid #F5F5F5;
   color: white;
-  padding: 15px 32px;
+  padding: 5px 8px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -55,31 +56,61 @@ position: relative;
 background-color: #3B4252;
 }
 #searchDiv {
-width: 200px;
+  margin-top:10%;
+  border-radius: 0;
+width: 100%;
 position: relative;
 top: 0;
 left: 0;
 
 }
 .graphui {
-position: fixed;
-flex-direction:column;
-border-style:solid;
-width: 200px;
-z-index: 20;
+  background-color: #2E3440;
+  position: fixed;
+  flex-direction:column;
+  width: 13%;
+  z-index: 20;
+  min-height: 100%;
 }
 
 .button:hover{
-background-color: #3B4252;
+  background-color: #3B4252;
 }
 .button {
-  background-color: #434C5E;
+  background-color: #B48EAD;
   border: none;
   color: white;
-  padding: 15px 32px;
+  /*padding: 10px 10px;*/
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 16px;
+  font-size: 13px;
   transition-duration: 0.2s;
+}
+
+#fileUpload{
+  margin-top: 20px;
+}
+#logo {
+  width: 100%;
+}
+
+.scrollbar-frozen-dreams::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: #F5F5F5;
+  border-radius: 10px;
+}
+
+.scrollbar-frozen-dreams::-webkit-scrollbar {
+  width: 12px;
+  background-color: #F5F5F5;
+}
+
+.scrollbar-frozen-dreams::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-image: -webkit-gradient(linear, left bottom, left top, from(#fdcbf1), color-stop(1%, #fdcbf1),
+  to(#e6dee9));
+  background-image: -webkit-linear-gradient(bottom, #fdcbf1 0%, #fdcbf1 1%, #e6dee9 100%);
+  background-image: linear-gradient(to top, #fdcbf1 0%, #fdcbf1 1%, #e6dee9 100%);
 }

@@ -4,35 +4,48 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="charttheme.css" />
     <link rel="stylesheet" href="styles.css" />
-
-    <script src="node_modules/highcharts/highcharts.js"></script>
-    <script src="node_modules/highcharts/modules/boost.js"></script>
-    <script src="node_modules/highcharts/modules/data.js"></script>
-    <script src="node_modules/papaparse/papaparse.js"></script>
-    <script src="src/index.js"></script>
     <title>HWinfo Online View</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
   </head>
-  <body>
+  <body class="scrollbar scrollbar-frozen-dreams">
+
      <div class = "graphui">
      <div style = "flex-direction:row;">
-      <input type="file" id="uploadedFile" class="button" style="width:50%;"/>
-      <button onclick="goButtonPressed()" class="button" style="width:50;">Go</button>
-    </div>
-    <div id="searchDiv">
-      <input
-        type="text"
-        id="graphSearch"
-        class="searchbar"
-        onkeyup="filterSearch()"
-        placeholder="Add a new graph from the CSV"
-      />
+       <img id="logo" src="logo.png">
+       <div class="custom-file" id="fileUpload">
+       <input type="file" id="uploadedFile" class="custom-file-input" />
+       <label class="custom-file-label" for="uploadedFile">Choose file</label>
+       </div>
+       <div id="searchDiv" class="form-control">
+         <input
+                 type="text"
+                 id="graphSearch"
+                 class="searchbar"
+                 onkeyup="filterSearch()"
+                 placeholder="Add graph"
+         />
 
-      <ul id="searchResults" style="list-style: none"></ul>
+         <ul class="scrollbar scrollbar-frozen-dreams" id="searchResults" style="list-style: none"></ul>
+       </div>
+     </div>
     </div>
-    </div>
+
     <div id="chartDiv">
 
     </div>
   </body>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.js"></script>
+  <script src="src/file.min.js"></script>
+  <script src="node_modules/highcharts/highcharts.js"></script>
+  <script src="node_modules/highcharts/modules/boost.js"></script>
+  <script src="node_modules/highcharts/modules/data.js"></script>
+  <script src="node_modules/papaparse/papaparse.js"></script>
+  <script src="src/index.js"></script>
 </html>
