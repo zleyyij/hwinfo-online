@@ -114,3 +114,10 @@ left: 0;
   background-image: -webkit-linear-gradient(bottom, #fdcbf1 0%, #fdcbf1 1%, #e6dee9 100%);
   background-image: linear-gradient(to top, #fdcbf1 0%, #fdcbf1 1%, #e6dee9 100%);
 }
+
+#uploadedFile::file-selector-button, #uploadedFile::-webkit-file-upload-button  {
+  display: none;
+}
+.custom-file .custom-file-label::after {
+  display: none;
+}
