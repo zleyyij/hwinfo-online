@@ -176,17 +176,36 @@ function createButtonLi(name, dataToDraw, id) {
 }
 
 
-function convertButtonToCheckBox(){
-  let btns = document.getElementById("searchResults").getElementsByTagName("li").getElementsByTagName("button");
-  console.log(btns);
+function showCheckBoxList(){
+  let li, button, checkbox, label;
+  li = document.getElementById("searchResults").getElementsByTagName("li");
+    //hide stuff that doesn't match the search query
+    for (let i = 0; i < li.length; i++) {
+     button = li[i].getElementsByTagName("button")[0];
+    //only create if element doesn't exist
+    if(document.getElementById(button.innerHTML + "-checkbox") !== null){
+     //creating checkboxes
+     checkbox = document.createElement("input");
+     checkbox.setAttribute("type", "checkbox");
+     checkbox.checked = false;
+     checkbox.id = button.innerHTML + "-checkbox";
+     checkbox.name = button.innerHTML;
+     checkbox.value = button.innerHTML;
+     //creating the label for the checkboxes
+     label = document.createElement("label");
+     label.id = button.innerHTML + "-label";
+     label.innerHTML = button.innerHTML;
+     label.style.color = "#FFFFFF";
+     label.for = button.innerHTML + "-checkbox";
 
+     //creating the checkbox in each li
+     li[i].appendChild(checkbox);
+     li[i].appendChild(label);
+
+     button.style.display = "none";
+      }
+    }
   
-
-
-
-
-}
-
 
 function quickGraph(name, arr) {
   createDiv(name, "charts");
