@@ -103,6 +103,7 @@ function stripMs(strip) {
   return strip;
 }
 
+
 async function parseCSV() {
   console.time("CSV parsing time");
   //I am incredibly sorry to have created this nightmare
@@ -145,6 +146,7 @@ async function parseCSV() {
   });
 }
 
+
 //maybe consolidate createDiv and createLi into one
 //generating a spot for each chart to live
 function createDiv(id, classNm) {
@@ -159,6 +161,7 @@ function createDiv(id, classNm) {
   }
 }
 
+
 function createButtonLi(name, dataToDraw, id) {
   if (document.getElementById(id) === null) {
     let li = document.createElement("li");
@@ -172,10 +175,25 @@ function createButtonLi(name, dataToDraw, id) {
   }
 }
 
+
+function convertButtonToCheckBox(){
+  let btns = document.getElementById("searchResults").getElementsByTagName("li").getElementsByTagName("button");
+  console.log(btns);
+
+  
+
+
+
+
+}
+
+
 function quickGraph(name, arr) {
   createDiv(name, "charts");
   drawGraph([{ name: name, data: arr, visible: true }], name, drawGraphConf);
 }
+
+
 //filtering the search results
 function filterSearch() {
   //https://www.w3schools.com/howto/howto_js_search_menu.asp
@@ -200,6 +218,7 @@ function filterSearch() {
   }
 }
 
+
 //generating a bunch of buttons for the graph menu
 function makeSearchResults() {
   //make sure it hasn't already been made
@@ -212,6 +231,7 @@ function makeSearchResults() {
   }
 }
 
+
 function genDivFromObj() {
   for (var i in formObj) {
     createDiv(i, "charts");
@@ -221,6 +241,7 @@ function genDivFromObj() {
     //	});
   }
 }
+
 
 //parsing the object, consolidating graphs, sorting them, so on and so forth
 function buildGraphs() {
@@ -324,6 +345,7 @@ var upCheck = document.getElementById('uploadedFile');
 upCheck.onchange = function(){
   parseCSV();
 };
+
 
 /*function goButtonPressed() {
   parseCSV();
