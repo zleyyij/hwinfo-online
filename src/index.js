@@ -233,6 +233,17 @@ function quickGraph(name, arr) {
   drawGraph([{ name: name, data: arr, visible: true }], name, drawGraphConf);
 }
 
+//on multi point graph checkbox, do the thing
+document.getElementById("multiPointGraphCheckbox").addEventListener("change", (event) => {
+  if(event.currentTarget.checked){
+    showCheckBoxList();
+
+  } else {
+    showButtonList();
+  }
+
+
+});
 
 //filtering the search results
 function filterSearch() {
@@ -381,7 +392,7 @@ function buildGraphs() {
 
   console.timeEnd("Building graphs");
 }
-var upCheck = document.getElementById('uploadedFile');
+let upCheck = document.getElementById('uploadedFile');
 upCheck.onchange = function(){
   parseCSV();
 };

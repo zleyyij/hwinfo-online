@@ -17,11 +17,13 @@
      <div class = "graphui">
      <div style = "flex-direction:row;">
 	<div class = "sidebar_top">
-       <img id="logo" src="logo.png">
-       <div class="custom-file" id="fileUpload">
-       <input type="file" id="uploadedFile" class="custom-file-input" allow=".csv"/>
-       <label class="custom-file-label" for="uploadedFile">Choose file</label>
-       </div>
+          <img id="logo" src="logo.png">
+          <div class="custom-file" id="fileUpload">
+          <input type="file" id="uploadedFile" class="custom-file-input" allow=".csv"/>
+          <label class="custom-file-label" for="uploadedFile">Choose file</label>
+	  <input type="checkbox" id="multiPointGraphCheckbox" name="multiPointGraphCheckbox">
+	  <label for="multiPointGraphCheckbox" style="color:#FFFFFF">Select Multiple Datapoints to Graph</label>
+	  </div>
        <div id="searchDiv" class="form-control">
          <input
                  type="text"
