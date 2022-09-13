@@ -183,7 +183,7 @@ function showCheckBoxList(){
     for (let i = 0; i < li.length; i++) {
      button = li[i].getElementsByTagName("button")[0];
     //only create if element doesn't exist
-    if(document.getElementById(button.innerHTML + "-checkbox") !== null){
+    if(document.getElementById(button.innerHTML + "-checkbox") === null){
      //creating checkboxes
      checkbox = document.createElement("input");
      checkbox.setAttribute("type", "checkbox");
@@ -201,11 +201,32 @@ function showCheckBoxList(){
      //creating the checkbox in each li
      li[i].appendChild(checkbox);
      li[i].appendChild(label);
-
+     } else {
+	//we assume the elements already exist because we checked
+	checkbox = document.getElementById(button.innerHTML + "-checkbox");
+	label = document.getElementById(button.innerHTML + "-label");
+     }
+     checkbox.style.display = "";
+     label.style.display = ""; 
      button.style.display = "none";
-      }
     }
-  
+    }
+
+
+
+// This function should only be called after showCheckBoxList
+function showButtonList(){
+let li, button, checkbox, checkboxLabel;
+	li= document.getElementById("searchResults").getElementsByTagName("li");
+	for(let i = 0; i < li.length; i++) {
+	button = li[i].getElementsByTagName("button")[0];
+	checkbox = document.getElementById(button.innerHTML + "-checkbox");
+	checkboxLabel = document.getElementById(button.innerHTML + "-label");
+	button.style.display = "";
+	checkbox.style.display = "none";
+	checkboxLabel.style.display = "none";
+	}
+}
 
 function quickGraph(name, arr) {
   createDiv(name, "charts");
