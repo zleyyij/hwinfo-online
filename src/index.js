@@ -59,7 +59,10 @@ Highcharts.theme = {
 Highcharts.setOptions(Highcharts.theme);
 
 
-
+// function stolen from stackoverflow because apparently javascript doesn't have native remap functionality
+function map_range(value, low1, high1, low2, high2) {
+    return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
+}
 
 
 
@@ -213,7 +216,6 @@ function showCheckBoxList(){
     }
 
 
-
 // This function should only be called after showCheckBoxList
 function showButtonList(){
 let li, button, checkbox, checkboxLabel;
@@ -228,6 +230,62 @@ let li, button, checkbox, checkboxLabel;
 	}
 }
 
+
+//on button press, draw the selected graphs
+document.getElementById("createMultiPointGraph").addEventListener('click', () => {
+let li, checkbox, remapValues;
+//get the checkbox that says to remap values
+remapValues = document.getElementById("remapCheckbox").checked;
+//array where all checked elements are sent
+let srs = [];
+//list of graphs to graph
+let graphsToGraph = [];
+ //get a list of all the values checkboxed
+  li = document.getElementById("searchResults").getElementsByTagName("li");
+  for(let i = 0; i < li.length; i++){
+    checkbox = li[i].getElementsByTagName("input")[0];
+    //if checkbox is checked, add graph to srs then generate a new graph
+    if(checkbox.checked){
+	graphsToGraph.push(checkbox.name);
+    }
+  }	  
+
+
+  function arrayMax(arr) {
+    let len = arr.length, max = -Infinity;
+     while (len--) {
+     if (arr[len] > max) {
+      max = arr[len];
+     }
+  }
+  return max;
+};
+
+
+  for(let i in graphsToGraph){
+      if(remapValues){
+      const max = arrayMax(formObj[graphsToGraph[i]]);
+      console.log("maximum value: ", max);
+      let remappedValues = [];
+      for(let j in formObj[graphsToGraph[i]]) {
+      remappedValues.push(map_range(formObj[graphsToGraph[i]][j], 0, max, 0, 100));
+      }
+      console.log("remapped values: ", remappedValues);
+      srs.push({
+	      name: graphsToGraph[i],
+	      data: remappedValues,
+	      visible: true 
+      });
+      } else{
+      srs.push({ name: graphsToGraph[i], data: formObj[graphsToGraph[i]], visible: true });
+      }
+  
+  }
+  createDiv(graphsToGraph.join(", "), "charts");
+  drawGraph(srs, graphsToGraph.join(", "), drawGraphConf);
+});
+
+
 function quickGraph(name, arr) {
   createDiv(name, "charts");
   drawGraph([{ name: name, data: arr, visible: true }], name, drawGraphConf);
@@ -237,8 +295,9 @@ function quickGraph(name, arr) {
 document.getElementById("multiPointGraphCheckbox").addEventListener("change", (event) => {
   if(event.currentTarget.checked){
     showCheckBoxList();
-
+    document.getElementById("multiPointUI").style.display = "";
   } else {
+    document.getElementById("multiPointUI").style.display = "none";
     showButtonList();
   }
 

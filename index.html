@@ -23,6 +23,15 @@
           <label class="custom-file-label" for="uploadedFile">Choose file</label>
 	  <input type="checkbox" id="multiPointGraphCheckbox" name="multiPointGraphCheckbox">
 	  <label for="multiPointGraphCheckbox" style="color:#FFFFFF">Select Multiple Datapoints to Graph</label>
+	  <div id = "multiPointUI" style="display: none;">
+		  <input type="checkbox" id="remapCheckbox" name="remapCheckbox">
+		  <label for="remapCheckbox" style="color:#FFFFFF">Normalize Datapoints</label>
+		  <input
+			  type="button"
+			  id="createMultiPointGraph"
+			  value="Create Graph"
+			  />
+	  </div>
 	  </div>
        <div id="searchDiv" class="form-control">
          <input
