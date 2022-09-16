@@ -247,7 +247,10 @@ let graphsToGraph = [];
     //if checkbox is checked, add graph to srs then generate a new graph
     if(checkbox.checked){
 	graphsToGraph.push(checkbox.name);
+	checkbox.checked = false;
     }
+    //scroll to bottom of page
+    window.scrollTo(0, document.body.scrollHeight);
   }	  
 
 
@@ -289,6 +292,7 @@ let graphsToGraph = [];
 function quickGraph(name, arr) {
   createDiv(name, "charts");
   drawGraph([{ name: name, data: arr, visible: true }], name, drawGraphConf);
+  window.scrollTo(0, document.body.scrollHeight);
 }
 
 //on multi point graph checkbox, do the thing
@@ -461,43 +465,4 @@ upCheck.onchange = function(){
   parseCSV();
 }*/
 
-//calling things at the appropriate time
-window.onload = function () {
-  //enabling disability features
-  //broken now, shoulud fix later
-  //            accessibility.enabled = true
 
-  //make graph go away if nein, make graph come back if ja
-//  document.getElementById("searchDiv").addEventListener("mouseout", function () {
-//    let li = document
-//      .getElementById("searchResults")
-//      .getElementsByTagName("li");
-//    for (let i = 0; i < li.length; i++) {
-//      li[i].style.display = "none";
-//    }
-//   // document.getElementById("graphSearch").value = "";
-//  });
-
-  document.getElementById("graphSearch").addEventListener("focus", function () {
-    let li = document
-      .getElementById("searchResults")
-      .getElementsByTagName("li");
-    for (let i = 0; i < li.length; i++) {
-      li[i].style.display = "";
-    }
-  });
-  document.getElementById("searchDiv").addEventListener("focus", function (){
-
-    let li = document
-      .getElementById("searchResults")
-      .getElementsByTagName("li");
-    for (let i = 0; i < li.length; i++) {
-      li[i].style.display = "";
-    }
-
-  });
-
-  //wait for file to upload, then parse it and modify the html to include one div per chart
-
-
-};
