@@ -130,3 +130,8 @@ height:20vh;
 .custom-file .custom-file-label::after {
   display: none;
 }
+input[type="checkbox"], label
+{
+    vertical-align:middle;
+    display: inline-block;
+}

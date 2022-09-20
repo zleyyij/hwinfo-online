@@ -208,12 +208,12 @@ function showCheckBoxList(){
      label.for = button.innerHTML + "-checkbox";
 
      //creating the checkbox in each li
-     li[i].appendChild(checkbox);
      li[i].appendChild(label);
+     label.prepend(checkbox);
      } else {
 	//we assume the elements already exist because we checked
-	checkbox = document.getElementById(button.innerHTML + "-checkbox");
 	label = document.getElementById(button.innerHTML + "-label");
+	checkbox = document.getElementById(button.innerHTML + "-checkbox");
      }
      checkbox.style.display = "";
      label.style.display = ""; 
