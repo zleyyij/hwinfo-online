@@ -72,6 +72,12 @@ function drawGraph(srs = [], divName, conf) {
    * xTime: search for time within the parsed csv, and try to use it instead of datapoints on the x axis
    */
   let graphSettings = {
+    
+    chart: {
+        zoomType: "x",
+        panning: true,
+        panKey: "shift"
+   },
    // chart: {
       width: "100%",
     //},
