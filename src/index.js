@@ -10,8 +10,8 @@ let drawGraphConf = {
 
 //highcharts theming
 Highcharts.theme = {
-  //  colors: ['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572',
-  //           '#FF9655', '#FFF263', '#6AF9C4'],
+    colors: ["#bf616a", "#d08770", "#ebcb8b", "#a3be8c", "#b48ead", "#88c0d0", "#81a1c1", "#5e81ac", "#fc6e68", '#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572',
+             '#FF9655', '#FFF263', '#6AF9C4'],
     chart: {
         backgroundColor: {
            linearGradient: [0, 0, 500, 500],
