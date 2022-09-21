@@ -255,8 +255,6 @@ let graphsToGraph = [];
 	graphsToGraph.push(checkbox.name);
 	checkbox.checked = false;
     }
-    //scroll to bottom of page
-    window.scrollTo(0, document.body.scrollHeight);
   }	  
 
 
@@ -279,7 +277,6 @@ let graphsToGraph = [];
       for(let j in formObj[graphsToGraph[i]]) {
       remappedValues.push(map_range(formObj[graphsToGraph[i]][j], 0, max, 0, 100));
       }
-      console.log("remapped values: ", remappedValues);
       srs.push({
 	      name: graphsToGraph[i],
 	      data: remappedValues,
@@ -292,6 +289,8 @@ let graphsToGraph = [];
   }
   createDiv(graphsToGraph.join(", "), "charts");
   drawGraph(srs, graphsToGraph.join(", "), drawGraphConf);
+  //scroll to bottom of page
+  window.scrollTo(0, document.body.scrollHeight);
 });
 
 
