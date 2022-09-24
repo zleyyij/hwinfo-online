@@ -113,10 +113,10 @@ function stripMs(strip) {
 }
 
 
-async function parseCSV() {
+async function parseCSV(file = document.getElementById("uploadedFile").files[0]) {
   console.time("CSV parsing time");
   //I am incredibly sorry to have created this nightmare
-  Papa.parse(document.getElementById("uploadedFile").files[0], {
+  Papa.parse(file, {
     complete: function (results) {
       //f is the uploaded file
       let f = results.data;
@@ -355,7 +355,7 @@ function dropHandler(event) {
     [...event.dataTransfer.items].forEach((item, i) => {
       // If dropped items aren't files, reject them
       if (item.kind === 'file') {
-        document.getElementById("uploadedFile").files[0] = item.getAsFile();
+        parseCSV(item.getAsFile());
       }
     });
   } else {
@@ -364,8 +364,6 @@ function dropHandler(event) {
     });
   }
 
-  //draw the graphs
-  parseCSV();
 };
 
 //generating a bunch of buttons for the graph menu
