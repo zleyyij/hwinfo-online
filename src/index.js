@@ -338,6 +338,36 @@ function filterSearch() {
 }
 
 
+function dragOverHandler(ev) {
+
+  // Prevent default behavior (Prevent file from being opened)
+  ev.preventDefault();
+}
+
+
+function dropHandler(event) {
+
+  // Prevent default behavior (Prevent file from being opened)
+  event.preventDefault();
+
+  if (event.dataTransfer.items) {
+    // Use DataTransferItemList interface to access the file(s)
+    [...event.dataTransfer.items].forEach((item, i) => {
+      // If dropped items aren't files, reject them
+      if (item.kind === 'file') {
+        document.getElementById("uploadedFile").files[0] = item.getAsFile();
+      }
+    });
+  } else {
+    // Use DataTransfer interface to access the file(s)
+    [...event.dataTransfer.files].forEach((file, i) => {
+    });
+  }
+
+  //draw the graphs
+  parseCSV();
+};
+
 //generating a bunch of buttons for the graph menu
 function makeSearchResults() {
   //make sure it hasn't already been made
