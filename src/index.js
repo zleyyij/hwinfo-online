@@ -497,7 +497,7 @@ upCheck.onchange = function(){
   parseCSV();
 };
 } else {
-	fetch(`http://api.47c.in/hw/?url=${urlParams.get("url")}`).then(file => file.blob().then(blb => parseCSV(blb)));
+	fetch(`https://api.47c.in/hw/?url=${urlParams.get("url")}`).then(file => file.blob().then(blb => parseCSV(blb)));
 }
 
 
