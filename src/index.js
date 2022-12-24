@@ -489,9 +489,16 @@ function buildGraphs() {
   console.timeEnd("Building graphs");
 }
 let upCheck = document.getElementById('uploadedFile');
+const urlParams = new URLSearchParams(window.location.search);
+//console.log(urlParams);
+console.log("url: " + urlParams.get("url"));
+if (urlParams.get("url") == "") {
 upCheck.onchange = function(){
   parseCSV();
 };
+} else {
+	fetch(`http://api.47c.in/hw/?url=${urlParams.get("url")}`).then(file => file.blob().then(blb => parseCSV(blb)));
+}
 
 
 /*function goButtonPressed() {
