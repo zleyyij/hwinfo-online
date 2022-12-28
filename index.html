@@ -27,13 +27,19 @@
       Select Multiple Datapoints to Graph
     </label>
 	  <div id = "multiPointUI" style="display: none;">
+
 		  <input type="checkbox" id="remapCheckbox" name="remapCheckbox">
 		  <label for="remapCheckbox" style="color:#FFFFFF">Normalize Datapoints</label>
+		  <div class="custom-file">
 		  <input
 			  type="button"
 			  id="createMultiPointGraph"
 			  value="Create Graph"
+			  name="createMultiPointGraph"
+			  class="custom-file-input"
 			  />
+		  <label for="createMultiPointGraph" class="custom-file-label">Create Graph</label>
+		  </div>
 	  </div>
 	  </div>
        <div id="searchDiv" class="form-control">

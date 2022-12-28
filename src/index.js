@@ -357,6 +357,12 @@ function dropHandler(event) {
       if (item.kind === 'file') {
         parseCSV(item.getAsFile());
       }
+      if (item.kind === 'string') {
+	item.getAsString(str => {
+	fetch(`https://api.47c.in/hw/?url=${str}`).then(file => file.blob().then(blb => parseCSV(blb)));
+	});
+      }
+	console.log(item);
     });
   } else {
     // Use DataTransfer interface to access the file(s)
@@ -492,7 +498,7 @@ let upCheck = document.getElementById('uploadedFile');
 const urlParams = new URLSearchParams(window.location.search);
 //console.log(urlParams);
 console.log("url: " + urlParams.get("url"));
-if (urlParams.get("url") == "") {
+if (urlParams.get("url") == null) {
 upCheck.onchange = function(){
   parseCSV();
 };
