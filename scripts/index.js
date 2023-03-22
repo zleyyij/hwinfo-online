@@ -266,7 +266,7 @@ let graphsToGraph = [];
      }
   }
   return max;
-};
+}
 
 
   for(let i in graphsToGraph){
@@ -370,7 +370,7 @@ function dropHandler(event) {
     });
   }
 
-};
+}
 
 //generating a bunch of buttons for the graph menu
 function makeSearchResults() {
