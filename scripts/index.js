@@ -140,7 +140,7 @@ function drawGraph(srs = [], divName, conf) {
     }
 }
 
-
+let responseJson;
 async function parseCSV(file = document.getElementById("uploadedFile").files[0]) {
     console.time("CSV parsing time");
     //hide the welcome message
@@ -148,47 +148,25 @@ async function parseCSV(file = document.getElementById("uploadedFile").files[0])
     // show the loading icon
     document.getElementById("loadingIcon").style.display = "";
 
-
-    //I am incredibly sorry to have created this nightmare
-    Papa.parse(file, {
-        complete: function (results) {
-            //f is the uploaded file
-            let f = results.data;
-            //f[0] is the title of each column
-            for (let i in f[0]) {
-                parsedData[f[0][i]] = [];
-            }
-            //looping through, demessing up the arrays
-            //o(n^2) efficiency right here bb
-            for (let i = 1; i < f.length; i++) {
-                for (let j in f[0]) {
-                    parsedData[f[0][j]].push(f[i][j]);
-                }
-            }
-            //this is either an artifact from the log, the parser, or my bad code
-            delete parsedData[""];
-
-            //going through, converting number-strings("1") to numbers(1)
-            for (let i in parsedData) {
-                //for the record I did try to use splice, but that was behaving very oddly
-                //for(let j = 0; j < 10; j++){
-                parsedData[i].pop();
-                //}
-                for (let j = 0; j < parsedData[i].length; j++) {
-                    if (!Number.isNaN(Number(parsedData[i][j]))) {
-                        parsedData[i][j] = Number(parsedData[i][j]);
-                    }
-                }
-            }
+     responseJson = await fetch("http://localhost:8081/api/hw-parser", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            csv: await file.text(),
+            translate: false
+        })
 
 
-            console.timeEnd("CSV parsing time");
-            buildGraphs();
-            makeSearchResults();
 
-        }
-    });
+    })
+    parsedData = await responseJson.json()
 
+
+    console.timeEnd("CSV parsing time");
+    buildGraphs();
+    makeSearchResults();
     //hide the loading icon
     //document.getElementById("loadingIcon").style.display = "none";
 }
