@@ -157,9 +157,6 @@ async function parseCSV(file = document.getElementById("uploadedFile").files[0])
             csv: await file.text(),
             translate: false
         })
-
-
-
     })
     parsedData = await responseJson.json()
 
