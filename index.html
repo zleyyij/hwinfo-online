@@ -16,7 +16,7 @@
 
 <body class="scrollbar scrollbar-frozen-dreams">
 <div ondrop="dropHandler(event);" ondragover="dragOverHandler(event);" class="dropzone">
-    <div class="graphui">
+    <div class="sidebar">
         <div style="flex-direction:row;">
                 <img id="logo" src="assets/logo.png">
                 <div class="custom-file" id="fileUpload">
@@ -53,9 +53,9 @@
                 </div>
                 <ul class="scrollbar scrollbar-frozen-dreams" id="searchResults" style="list-style: none"></ul>
             </div>
-
     </div>
 
+    <div class="resizer"></div>
     <div class="overlay">
         <div class="loading_icon" id="loadingIcon" style="display: none"></div>
         <div id="welcomeMessage">
@@ -82,4 +82,5 @@
 <script src="node_modules/highcharts/modules/data.js"></script>
 <script src="node_modules/papaparse/papaparse.js"></script>
 <script src="scripts/index.js"></script>
+<script src="scripts/resize-sidebar.js"></script>
 </html>

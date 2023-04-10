@@ -1,6 +1,8 @@
 /*
 File organization:
 
+- Mobile UI rules
+
 - Site wide rules
 
 - Sidebar specific rules that happen to be site wide
@@ -13,6 +15,15 @@ File organization:
 - Graph section
 
 */
+
+@media only screen and (max-width: 600px) {
+
+}
+
+:root {
+    --sidebar-width: 14rem;
+}
+
 body {
     display: flex;
     background-color: #3B4252;
@@ -82,18 +93,31 @@ input[type="checkbox"] {
     margin: 6px;
 }
 
-/*This vaguely named class refers to the root sidebar div*/
-.graphui {
+.sidebar {
     background-color: #2E3440;
     position: fixed;
     flex-direction: column;
-    width: 13%;
+    width: var(--sidebar-width);
     z-index: 20;
     min-height: 100%;
 }
 
+/*This element is grabbed to change the size of the sidebar*/
+.resizer {
+    width: calc(var(--sidebar-width) + 3px);
+    border-right: 4px inset rgb(220, 220, 220);
+    background-color: #2E3440;
+    cursor: col-resize;
+}
+
 #logo {
     width: 100%;
+    user-drag: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }
 
 .searchbar {
@@ -117,9 +141,7 @@ input[type="checkbox"] {
     font-size: 18px;
     padding: 0;
     margin-top: 2%;
-    /* margin-left: -7%; */
     overflow-y: scroll;
-
     position: absolute;
     z-index: 200;
 }
@@ -165,8 +187,8 @@ input[type="checkbox"] {
 
 .loading_icon {
     position: absolute;
-    left: 58%;
-    right: 42%;
+    left: calc(50% + var(--sidebar-width));
+    right: calc(50% - var(--sidebar-width));
     z-index: 1;
     width: 30px;
     height: 30px;
@@ -190,9 +212,9 @@ input[type="checkbox"] {
 
 
 #welcomeMessage {
-    margin-left: 43%;
-    margin-right: 67%;
-    width: 20%;
+    margin-left: 50%;
+    margin-right: 50%;
+    width: 12rem;
     margin-top: -7.5%;
 
     font-size: 20px;
@@ -205,19 +227,19 @@ input[type="checkbox"] {
 .charts {
     padding-top: 10px;
     padding-bottom: 10px;
-    margin-left: 16%;
-
-    width: 80%;
+    margin-left: calc(5%);
+    margin-right: 5%;
+    /*max-width: calc(95% - var(--sidebar-width));*/
     flex-direction: column;
     flex-grow: 1;
-    flex-shrink: 0;
+    flex-shrink: 2;
     z-index: 0;
 }
 
 #chartDiv {
     flex-grow: 1;
     width: 10%;
-    flex-shrink: 0;
+    flex-shrink: 1;
     position: relative;
 }
 

@@ -4,6 +4,7 @@ let parsedData = {};
 let drawGraphConf = {
     xTime: true
 };
+let charts = [];
 
 //highcharts theming
 Highcharts.theme = {
@@ -63,14 +64,11 @@ Highcharts.setOptions(Highcharts.theme);
 //shuffle an array, used to make the graphs different colors
 function shuffle(array) {
     let currentIndex = array.length,  randomIndex;
-
     // While there remain elements to shuffle.
     while (currentIndex != 0) {
-
         // Pick a remaining element.
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex--;
-
         // And swap it with the current element.
         [array[currentIndex], array[randomIndex]] = [
             array[randomIndex], array[currentIndex]];
@@ -133,7 +131,7 @@ function drawGraph(srs = [], divName, conf) {
     if (srs.length > 0) {
         // shuffle the theme settings
         Highcharts.theme.colors = shuffle(Highcharts.theme.colors);
-        Highcharts.chart(divName, graphSettings);
+        charts.push(Highcharts.chart(divName, graphSettings));
     } else {
         console.error("tried to draw graph with no items in list.");
 
@@ -154,7 +152,7 @@ async function parseCSV(file = document.getElementById("uploadedFile").files[0])
         complete: function (results) {
             //f is the uploaded file
             let f = results.data;
-            //f[0] is the title of each column
+            // f[0] is the title of each column
             for (let i in f[0]) {
                 parsedData[f[0][i]] = [];
             }
@@ -168,20 +166,14 @@ async function parseCSV(file = document.getElementById("uploadedFile").files[0])
             //this is either an artifact from the log, the parser, or my bad code
             delete parsedData[""];
 
-            //going through, converting number-strings("1") to numbers(1)
+            // //going through, converting number-strings("1") to numbers(1)
             for (let i in parsedData) {
-                //for the record I did try to use splice, but that was behaving very oddly
-                //for(let j = 0; j < 10; j++){
-                parsedData[i].pop();
-                //}
                 for (let j = 0; j < parsedData[i].length; j++) {
                     if (!Number.isNaN(Number(parsedData[i][j]))) {
                         parsedData[i][j] = Number(parsedData[i][j]);
                     }
                 }
             }
-
-
             console.timeEnd("CSV parsing time");
             buildGraphs();
             makeSearchResults();
