@@ -104,8 +104,7 @@ input[type="checkbox"] {
 
 /*This element is grabbed to change the size of the sidebar*/
 .resizer {
-    width: calc(var(--sidebar-width) + 3px);
-    border-right: 4px inset rgb(220, 220, 220);
+    width: calc(var(--sidebar-width) + 6px);
     background-color: #2E3440;
     cursor: col-resize;
 }
@@ -158,6 +157,10 @@ input[type="checkbox"] {
     display: inline-block;
     font-size: 16px;
     transition-duration: 0.42s;
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
 }
 
 #searchResults li button:hover {
