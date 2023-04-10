@@ -230,9 +230,8 @@ input[type="checkbox"] {
 .charts {
     padding-top: 10px;
     padding-bottom: 10px;
-    margin-left: calc(5%);
-    margin-right: 5%;
-    /*max-width: calc(95% - var(--sidebar-width));*/
+    margin-left: 2%;
+    margin-right: 2%;
     flex-direction: column;
     flex-grow: 1;
     flex-shrink: 2;
