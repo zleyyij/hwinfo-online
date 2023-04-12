@@ -8,6 +8,9 @@
           integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.css" rel="stylesheet"/>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+
     <link rel="stylesheet" href="styles/charttheme.css"/>
     <link rel="stylesheet" href="styles/style.css"/>
     <title>HWinfo Online View</title>
@@ -16,47 +19,51 @@
 
 <body class="scrollbar scrollbar-frozen-dreams">
 <div ondrop="dropHandler(event);" ondragover="dragOverHandler(event);" class="dropzone">
+
+    <span class="material-symbols-outlined minimize-icon">close</span>
+    <span class="material-symbols-outlined maximize_icon">menu</span>
     <div class="sidebar">
         <div style="flex-direction:row;">
-                <img id="logo" src="assets/logo.png">
-                <div class="custom-file" id="fileUpload">
-                    <input type="file" id="uploadedFile" class="custom-file-input" accept=".csv"/>
-                    <label class="custom-file-label" for="uploadedFile">Choose file</label>
-                    <label for="multiPointGraphCheckbox" style="color:#FFFFFF">
-                        <input type="checkbox" id="multiPointGraphCheckbox" name="multiPointGraphCheckbox">
-                        Select Multiple Datapoints to Graph
-                    </label>
-                    <div id="multiPointUI" style="display: none;">
-                        <input type="checkbox" id="remapCheckbox" name="remapCheckbox">
-                        <label for="remapCheckbox" style="color:#FFFFFF">Normalize Datapoints</label>
-                        <div class="custom-file">
-                            <input
-                                    type="button"
-                                    id="createMultiPointGraph"
-                                    value="Create Graph"
-                                    name="createMultiPointGraph"
-                                    class="custom-file-input"
-                            />
-                            <label for="createMultiPointGraph" class="custom-file-label">Create Graph</label>
-                        </div>
+            <img id="logo" src="assets/logo.png">
+            <div class="custom-file" id="fileUpload">
+                <input type="file" id="uploadedFile" class="custom-file-input" accept=".csv"/>
+                <label class="custom-file-label" for="uploadedFile">Choose file</label>
+                <label for="multiPointGraphCheckbox" style="color:#FFFFFF">
+                    <input type="checkbox" id="multiPointGraphCheckbox" name="multiPointGraphCheckbox">
+                    Select Multiple Datapoints to Graph
+                </label>
+                <div id="multiPointUI" style="display: none;">
+                    <input type="checkbox" id="remapCheckbox" name="remapCheckbox">
+                    <label for="remapCheckbox" style="color:#FFFFFF">Normalize Datapoints</label>
+                    <div class="custom-file">
+                        <input
+                                type="button"
+                                id="createMultiPointGraph"
+                                value="Create Graph"
+                                name="createMultiPointGraph"
+                                class="custom-file-input"
+                        />
+                        <label for="createMultiPointGraph" class="custom-file-label">Create Graph</label>
                     </div>
                 </div>
-
-                <div id="searchDiv" class="form-control">
-                    <input
-                            type="text"
-                            id="graphSearch"
-                            class="searchbar"
-                            onkeyup="filterSearch()"
-                            placeholder="Add graph"
-                    />
-                </div>
-                <ul class="scrollbar scrollbar-frozen-dreams" id="searchResults" style="list-style: none"></ul>
             </div>
+
+            <div id="searchDiv" class="form-control">
+                <input
+                        type="text"
+                        id="graphSearch"
+                        class="searchbar"
+                        onkeyup="filterSearch()"
+                        placeholder="Add graph"
+                />
+            </div>
+            <ul class="scrollbar scrollbar-frozen-dreams" id="searchResults" style="list-style: none"></ul>
+        </div>
     </div>
 
     <div class="resizer"></div>
     <div class="overlay">
+
         <div class="loading_icon" id="loadingIcon" style="display: none"></div>
         <div id="welcomeMessage">
             <h2>Welcome to HWGV!</h2>

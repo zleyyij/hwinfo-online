@@ -16,9 +16,7 @@ File organization:
 
 */
 
-@media only screen and (max-width: 600px) {
 
-}
 
 :root {
     --sidebar-width: 14rem;
@@ -29,6 +27,8 @@ body {
     background-color: #3B4252;
     min-height: 100%;
     min-width: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 html {
@@ -104,10 +104,45 @@ input[type="checkbox"] {
 
 /*This element is grabbed to change the size of the sidebar*/
 .resizer {
+    min-height: 100%;
     width: calc(var(--sidebar-width) + 6px);
-    background-color: #2E3440;
     cursor: col-resize;
+    z-index: 19;
 }
+
+.material-symbols-outlined {
+    color: #F5F5F5;
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+    font-variation-settings:
+            'FILL' 0,
+            'wght' 700,
+            'GRAD' 200,
+            'opsz' 72
+}
+
+
+.maximize_icon {
+    position: fixed;
+    left: 15px;
+    top: 10px;
+    z-index: 10;
+}
+
+.minimize-icon {
+    position: fixed;
+    left: calc(var(--sidebar-width) + 15px);
+    top: 10px;
+    z-index: 10;
+}
+
+.minimize-icon:hover, .maximize_icon:hover {
+    cursor: pointer;
+    color: #AAAAAA;
+}
+
 
 #logo {
     width: 100%;
@@ -239,6 +274,7 @@ input[type="checkbox"] {
 }
 
 #chartDiv {
+    float: right;
     flex-grow: 1;
     width: 10%;
     flex-shrink: 1;
@@ -251,7 +287,12 @@ input[type="checkbox"] {
 }
 
 
-
+@media only screen and (orientation: portrait) {
+    .resizer {
+        position: absolute;
+        min-height: 100%;
+    }
+}
 
 
 
