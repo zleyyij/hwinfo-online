@@ -23,12 +23,18 @@ Highcharts.theme = {
     title: {
         style: {
             color: '#FFFFFF',
+            backgroundColor: "#3B4252"
         }
     },
     subtitle: {
         style: {
             color: '#FFFFFF',
         }
+    },
+    tooltip: {
+      style: {
+          color: 0xffffff
+      }
     },
     legend: {
         itemStyle: {
