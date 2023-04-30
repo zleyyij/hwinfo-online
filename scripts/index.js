@@ -8,9 +8,9 @@ let charts = [];
 
 //highcharts theming
 Highcharts.theme = {
-    colors: shuffle([ "#bf616a", "#d08770", "#ebcb8b",
-                            "#a3be8c", "#b48ead", "#88c0d0",
-                            "#81a1c1", "#5e81ac"            ]),
+    colors: shuffle(["#bf616a", "#d08770", "#ebcb8b",
+        "#a3be8c", "#b48ead", "#88c0d0",
+        "#81a1c1", "#5e81ac"]),
     chart: {
         backgroundColor: {
             linearGradient: [0, 0, 500, 500],
@@ -32,9 +32,9 @@ Highcharts.theme = {
         }
     },
     tooltip: {
-      style: {
-          color: 0xffffff
-      }
+        style: {
+            color: 0xffffff
+        }
     },
     legend: {
         itemStyle: {
@@ -69,7 +69,7 @@ Highcharts.setOptions(Highcharts.theme);
 
 //shuffle an array, used to make the graphs different colors
 function shuffle(array) {
-    let currentIndex = array.length,  randomIndex;
+    let currentIndex = array.length, randomIndex;
     // While there remain elements to shuffle.
     while (currentIndex != 0) {
         // Pick a remaining element.
@@ -88,17 +88,122 @@ function map_range(value, low1, high1, low2, high2) {
     return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
 }
 
-//stripping ms with regex cuz it looks nice
-//this function is only used exactly *one* time
-function stripMs(strip) {
-    //stripping from each element in the array
-    //  if(Array.isArray(strip)){
-    for (let i in strip) {
-        if (/\d{1,2}:\d{1,2}:\d{1,2}/g.exec(strip[i]) !== null) {
-            strip[i] = /\d{1,2}:\d{1,2}:\d{1,2}/g.exec(strip[i])[0];
+/**
+ * Reformat the hwinfo time to be more legible, and convert to elapsed time
+ *
+ * @param unformattedTime A list of unformatted time strings
+ * @returns {string[]} a list of formatted time strings
+ */
+function formatTime(unformattedTime) {
+    // calculate the elapsed time off of the log time
+    let formattedTime = [];
+
+    //needed for elapsed time calculation across iterations
+    let startTime;
+    for (let i in unformattedTime) {
+        // you can only split a string, and there's some issues with the csv parser
+        if (typeof unformattedTime[i] !== "string") {
+            continue
         }
+        //removing MS and turning into an array of time units
+        const splitTime = unformattedTime[i].slice(0, -4).split(":").map(n => ~~n);
+        // because there are some artifacts left behind from the csv parser, ensure a valid split time was generated
+        if (splitTime.length !== 3) {
+            continue;
+        }
+        // calculate total elapsed time as seconds
+        if (i == 0) {
+            startTime = splitTime[0] * 3600 + splitTime[1] * 60 + splitTime[2];
+        }
+        /** total elapsed time in seconds */
+        const elapsedTime = splitTime[0] * 3600 + splitTime[1] * 60 + splitTime[2] - startTime;
+        // convert back to an array of h/m/s now that elapsed time was calculated
+        /** elapsed time as an array*/
+        let splitElapsedTime = Array(3);
+        splitElapsedTime[0] = Math.floor(elapsedTime / 3600);
+        // remainder of however many seconds can't evenly convert to hours, / 60
+        splitElapsedTime[1] = Math.floor(elapsedTime % 3600 / 60);
+        // remainder of whatever doesn't cleanly convert to hours or minutes
+        splitElapsedTime[2] = elapsedTime % 3600 % 60;
+
+        //finally, make a list of fully formatted nice looking strings
+        let time = "";
+        const unitLabels = ["h, ", "m, ", "s"]
+        for (let j in splitElapsedTime) {
+            if (splitElapsedTime[j]) {
+                time += splitElapsedTime[j] + unitLabels[j];
+            }
+        }
+        formattedTime.push(time);
     }
-    return strip;
+
+    // // initialize with a sparse array
+    // let splitTimeList = [];
+    // // for (let time of unformattedTime) {
+    // //     // remove milliseconds
+    // //     if (/\d{1,2}:\d{1,2}:\d{1,2}/g.exec(time) !== null) {
+    // //         time = /\d{1,2}:\d{1,2}:\d{1,2}/g.exec(time)[0];
+    // //     }
+    // //
+    // //     // array of [hrs, mins, secs]
+    // //     if (typeof time === "string") {
+    // //         splitTimeList.push(time.split(":"));
+    // //     }
+    // // }
+    // // Removing ms from the end of the string and split by :
+    // for (let time of unformattedTime) {
+    //     if (typeof time === "string") {
+    //         time = time.slice(0, -4);
+    //         // [hrs, mins, secs]
+    //         // implicit type conversion with the double NOT operator is generally the fastest
+    //         splitTimeList.push(time.split(":").map(n => ~~n));
+    //     }
+    // }
+    //
+    // // raw values as seconds
+    // let sList = [];
+    // // Convert to seconds
+    // for (let i in splitTimeList) {
+    //     sList.push(splitTimeList[i][0] * 3600 + splitTimeList[i][1] * 60 + splitTimeList[i][2]);
+    // }
+    //
+    //
+    // // calc time passed since first logged time in seconds
+    // let elapsedSList = Array(sList.length)
+    // elapsedSList[0] = 0;
+    // const startTime = sList[0];
+    // for (let i = 1; i < sList.length; i ++) {
+    //     elapsedSList[i] = sList[i] - startTime;
+    // }
+    //
+    // // elapsed time as hh mm ss
+    // let parsedTimeList = [];
+    // // convert back to a list of formatted time
+    // for (const time of elapsedSList) {
+    //     let parsedTime = [];
+    //     // hours
+    //     parsedTime.push(Math.floor(time / 3600));
+    //     // minutes
+    //     parsedTime.push(Math.floor(time % 3600 / 60))
+    //     //seconds
+    //     parsedTime.push(Math.floor(time % 3600 % 60))
+    //     parsedTimeList.push(parsedTime);
+    // }
+    //
+    // //finally, make a list of fully formatted nice looking strings
+    // let formattedTime = [];
+    // for (const parsedTime of parsedTimeList) {
+    //     let time = "";
+    //     const unitLabels = ["h", "m", "s"]
+    //     for (let i in parsedTime) {
+    //         if (parsedTime[i]) {
+    //             time += parsedTime[i] + unitLabels[i];
+    //         }
+    //     }
+    //     formattedTime.push(time);
+    // }
+    //
+    return formattedTime;
 }
 
 //Draw a graph
@@ -132,7 +237,7 @@ function drawGraph(srs = [], divName, conf) {
     //see if there's an array called Time if xTime is true(should be for all hwinfo logs)
     //in the same line see if the Time element exists in formObj
     if (conf.xTime == true && "Time" in parsedData) {
-        graphSettings.xAxis.categories = stripMs(parsedData["Time"]);
+        graphSettings.xAxis.categories = formatTime(parsedData["Time"]);
     }
     if (srs.length > 0) {
         // shuffle the theme settings
@@ -172,7 +277,7 @@ async function parseCSV(file = document.getElementById("uploadedFile").files[0])
             //this is either an artifact from the log, the parser, or my bad code
             delete parsedData[""];
 
-            // //going through, converting number-strings("1") to numbers(1)
+            // going through, converting number-strings("1") to numbers(1)
             for (let i in parsedData) {
                 for (let j = 0; j < parsedData[i].length; j++) {
                     if (!Number.isNaN(Number(parsedData[i][j]))) {
@@ -391,7 +496,7 @@ function buildGraphs() {
 
         pushRegex(/(CPU \(Tctl)/g.exec(i), i, false);
     }
-        drawGraph(srs, "CPU Temps", drawGraphConf);
+    drawGraph(srs, "CPU Temps", drawGraphConf);
     //clearing srs to be used again
     srs = [];
 
