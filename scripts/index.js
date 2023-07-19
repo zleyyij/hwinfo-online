@@ -100,6 +100,9 @@ function formatTime(unformattedTime) {
 
     //needed for elapsed time calculation across iterations
     let startTime;
+    // the maximum time found, so that if the time "ticks over",
+    // it doesn't end up with -24h displayed
+    let maxTime = 0;
     for (let i in unformattedTime) {
         // you can only split a string, and there's some issues with the csv parser
         if (typeof unformattedTime[i] !== "string") {
@@ -116,7 +119,15 @@ function formatTime(unformattedTime) {
             startTime = splitTime[0] * 3600 + splitTime[1] * 60 + splitTime[2];
         }
         /** total elapsed time in seconds */
-        const elapsedTime = splitTime[0] * 3600 + splitTime[1] * 60 + splitTime[2] - startTime;
+        let elapsedTime = splitTime[0] * 3600 + splitTime[1] * 60 + splitTime[2] - startTime;
+        if (elapsedTime > maxTime) {
+            maxTime = elapsedTime;
+        } else {
+            // if the log is running past midnight,
+            // everything will break and display -24h
+            // to counter, add 24h in seconds
+            elapsedTime += 86400;
+        }
         // convert back to an array of h/m/s now that elapsed time was calculated
         /** elapsed time as an array*/
         let splitElapsedTime = Array(3);
@@ -285,11 +296,27 @@ async function parseCSV(file = document.getElementById("uploadedFile").files[0])
                     }
                 }
             }
+            // "Yes" to 1 and "No" to 0
+            for (let i in parsedData) {
+                if (["Yes", "No"].includes(parsedData[i][0])) {
+                    for (let j in parsedData[i]) {
+                        if (parsedData[i][j] === "Yes") {
+                            parsedData[i][j] = 1;
+                        } else {
+                            // assume it's yes || no with no other states
+                            parsedData[i][j] = 0;
+                        }
+                    }
+                }
+
+            }
+
             console.timeEnd("CSV parsing time");
             buildGraphs();
             makeSearchResults();
 
-        }
+        },
+        encoding: "iso-8859-1"
     });
 
     //hide the loading icon
