@@ -1,4 +1,6 @@
 //neat little object where all results are kept
+import hwgv_parser, {parse_csv} from "./hwgv-parser/pkg/hwgv_parser.js";
+
 let parsedData = {};
 //Global config options
 let drawGraphConf = {
@@ -147,73 +149,6 @@ function formatTime(unformattedTime) {
         }
         formattedTime.push(time);
     }
-
-    // // initialize with a sparse array
-    // let splitTimeList = [];
-    // // for (let time of unformattedTime) {
-    // //     // remove milliseconds
-    // //     if (/\d{1,2}:\d{1,2}:\d{1,2}/g.exec(time) !== null) {
-    // //         time = /\d{1,2}:\d{1,2}:\d{1,2}/g.exec(time)[0];
-    // //     }
-    // //
-    // //     // array of [hrs, mins, secs]
-    // //     if (typeof time === "string") {
-    // //         splitTimeList.push(time.split(":"));
-    // //     }
-    // // }
-    // // Removing ms from the end of the string and split by :
-    // for (let time of unformattedTime) {
-    //     if (typeof time === "string") {
-    //         time = time.slice(0, -4);
-    //         // [hrs, mins, secs]
-    //         // implicit type conversion with the double NOT operator is generally the fastest
-    //         splitTimeList.push(time.split(":").map(n => ~~n));
-    //     }
-    // }
-    //
-    // // raw values as seconds
-    // let sList = [];
-    // // Convert to seconds
-    // for (let i in splitTimeList) {
-    //     sList.push(splitTimeList[i][0] * 3600 + splitTimeList[i][1] * 60 + splitTimeList[i][2]);
-    // }
-    //
-    //
-    // // calc time passed since first logged time in seconds
-    // let elapsedSList = Array(sList.length)
-    // elapsedSList[0] = 0;
-    // const startTime = sList[0];
-    // for (let i = 1; i < sList.length; i ++) {
-    //     elapsedSList[i] = sList[i] - startTime;
-    // }
-    //
-    // // elapsed time as hh mm ss
-    // let parsedTimeList = [];
-    // // convert back to a list of formatted time
-    // for (const time of elapsedSList) {
-    //     let parsedTime = [];
-    //     // hours
-    //     parsedTime.push(Math.floor(time / 3600));
-    //     // minutes
-    //     parsedTime.push(Math.floor(time % 3600 / 60))
-    //     //seconds
-    //     parsedTime.push(Math.floor(time % 3600 % 60))
-    //     parsedTimeList.push(parsedTime);
-    // }
-    //
-    // //finally, make a list of fully formatted nice looking strings
-    // let formattedTime = [];
-    // for (const parsedTime of parsedTimeList) {
-    //     let time = "";
-    //     const unitLabels = ["h", "m", "s"]
-    //     for (let i in parsedTime) {
-    //         if (parsedTime[i]) {
-    //             time += parsedTime[i] + unitLabels[i];
-    //         }
-    //     }
-    //     formattedTime.push(time);
-    // }
-    //
     return formattedTime;
 }
 
@@ -267,57 +202,68 @@ async function parseCSV(file = document.getElementById("uploadedFile").files[0])
     document.getElementById("welcomeMessage").style.display = "none";
     // show the loading icon
     document.getElementById("loadingIcon").style.display = "";
-
-
-    //I am incredibly sorry to have created this nightmare
-    Papa.parse(file, {
-        complete: function (results) {
-            //f is the uploaded file
-            let f = results.data;
-            // f[0] is the title of each column
-            for (let i in f[0]) {
-                parsedData[f[0][i]] = [];
-            }
-            //looping through, demessing up the arrays
-            //o(n^2) efficiency right here bb
-            for (let i = 1; i < f.length; i++) {
-                for (let j in f[0]) {
-                    parsedData[f[0][j]].push(f[i][j]);
-                }
-            }
-            //this is either an artifact from the log, the parser, or my bad code
-            delete parsedData[""];
-
-            // going through, converting number-strings("1") to numbers(1)
-            for (let i in parsedData) {
-                for (let j = 0; j < parsedData[i].length; j++) {
-                    if (!Number.isNaN(Number(parsedData[i][j]))) {
-                        parsedData[i][j] = Number(parsedData[i][j]);
-                    }
-                }
-            }
-            // "Yes" to 1 and "No" to 0
-            for (let i in parsedData) {
-                if (["Yes", "No"].includes(parsedData[i][0])) {
-                    for (let j in parsedData[i]) {
-                        if (parsedData[i][j] === "Yes") {
-                            parsedData[i][j] = 1;
-                        } else {
-                            // assume it's yes || no with no other states
-                            parsedData[i][j] = 0;
-                        }
-                    }
-                }
-
-            }
-
-            console.timeEnd("CSV parsing time");
-            buildGraphs();
-            makeSearchResults();
-
-        },
-        encoding: "iso-8859-1"
+    // initialize the wasm import
+    // this should be preloaded
+    await hwgv_parser();
+    const fileAsBuffer= await file.arrayBuffer();
+    const csvResults = parse_csv(new Uint8Array(fileAsBuffer));
+    
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
+    csvResults.forEach((value, key) => {
+        parsedData[key] = value;
     });
+    console.log(parsedData);
+    buildGraphs();
+    makeSearchResults();
+    // //I am incredibly sorry to have created this nightmare
+    // Papa.parse(file, {
+    //     complete: function (results) {
+    //         //f is the uploaded file
+    //         let f = results.data;
+    //         // f[0] is the title of each column
+    //         for (let i in f[0]) {
+    //             parsedData[f[0][i]] = [];
+    //         }
+    //         //looping through, demessing up the arrays
+    //         //o(n^2) efficiency right here bb
+    //         for (let i = 1; i < f.length; i++) {
+    //             for (let j in f[0]) {
+    //                 parsedData[f[0][j]].push(f[i][j]);
+    //             }
+    //         }
+    //         //this is either an artifact from the log, the parser, or my bad code
+    //         delete parsedData[""];
+
+    //         // going through, converting number-strings("1") to numbers(1)
+    //         for (let i in parsedData) {
+    //             for (let j = 0; j < parsedData[i].length; j++) {
+    //                 if (!Number.isNaN(Number(parsedData[i][j]))) {
+    //                     parsedData[i][j] = Number(parsedData[i][j]);
+    //                 }
+    //             }
+    //         }
+    //         // "Yes" to 1 and "No" to 0
+    //         for (let i in parsedData) {
+    //             if (["Yes", "No"].includes(parsedData[i][0])) {
+    //                 for (let j in parsedData[i]) {
+    //                     if (parsedData[i][j] === "Yes") {
+    //                         parsedData[i][j] = 1;
+    //                     } else {
+    //                         // assume it's yes || no with no other states
+    //                         parsedData[i][j] = 0;
+    //                     }
+    //                 }
+    //             }
+
+    //         }
+
+    //         console.timeEnd("CSV parsing time");
+    //         buildGraphs();
+    //         makeSearchResults();
+
+    //     },
+    //     encoding: "iso-8859-1"
+    // });
 
     //hide the loading icon
     //document.getElementById("loadingIcon").style.display = "none";

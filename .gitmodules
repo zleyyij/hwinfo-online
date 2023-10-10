@@ -1,0 +1,3 @@
+[submodule "scripts/hwgv-parser"]
+	path = scripts/hwgv-parser
+	url = https://github.com/zleyyij/hwgv-parser
