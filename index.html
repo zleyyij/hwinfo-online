@@ -18,7 +18,7 @@
 </head>
 
 <body class="scrollbar scrollbar-frozen-dreams">
-<div ondrop="dropHandler(event);" ondragover="dragOverHandler(event);" class="dropzone">
+<div class="dropzone">
 
     <span class="material-symbols-outlined minimize-icon">close</span>
     <span class="material-symbols-outlined maximize_icon">menu</span>
@@ -53,7 +53,6 @@
                         type="text"
                         id="graphSearch"
                         class="searchbar"
-                        onkeyup="filterSearch()"
                         placeholder="Add graph"
                 />
             </div>
@@ -90,5 +89,6 @@
 <!-- <script src="node_modules/papaparse/papaparse.js"></script> -->
 <script type="module" src="scripts/hwgv-parser/pkg/hwgv_parser.js"></script>
 <script type="module" src="scripts/index.js"></script>
-<script src="scripts/resize-sidebar.js"></script>
+<script type="module" src="scripts/ui.js"></script>
+<script type ="module" src="scripts/sidebar.js"></script>
 </html>
