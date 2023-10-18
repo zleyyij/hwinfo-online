@@ -1,3 +1,5 @@
+// TODO: make it so that node_modules isn't floating around, make it so that this all isn't terrible
+
 //neat little object where all results are kept
 import hwgv_parser, { parse_csv } from "./hwgv-parser/pkg/hwgv_parser.js";
 import { buildGraphs, makeSearchResults } from "./ui.js";
@@ -179,7 +181,7 @@ export function drawGraph(srs = [], divName) {
   //see if there's an array called Time if xTime is true(should be for all hwinfo logs)
   //in the same line see if the Time element exists in formObj
   if ("Time" in parsedData) {
-    graphSettings.xAxis.categories = formatTime(parsedData["Time"]);
+    graphSettings.xAxis.categories = parsedData["Time"];
   }
   if (srs.length > 0) {
     // shuffle the theme settings
@@ -198,16 +200,20 @@ export async function parseCSV(
   // show the loading icon
   document.getElementById("loadingIcon").style.display = "";
   console.time("CSV parsing time");
+  // wipe the results, in case a new file is being rendered
+  parsedData = {};
+  // just delete *all of the charts*
+  document.getElementById("chartDiv").replaceChildren();
   const fileAsBuffer = await file.arrayBuffer();
   const csvResults = parse_csv(new Uint8Array(fileAsBuffer));
-  console.timeEnd("CSV parsing time");
-
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
   csvResults.forEach((value, key) => {
     parsedData[key] = value;
   });
-  buildGraphs();
+  // modify the "Time" key to display nicely rendered times
+  parsedData["Time"] = formatTime(parsedData["Time"]);
+  console.timeEnd("CSV parsing time");
   makeSearchResults();
+  buildGraphs();
   //hide the loading icon
   //document.getElementById("loadingIcon").style.display = "none";
 }
@@ -223,6 +229,7 @@ if (urlParams.get("url") == null) {
     parseCSV();
   };
 } else {
+  // TODO: make it so that this whole schtick isn't hardcoded
   fetch(`https://api.47c.in/hw/?url=${urlParams.get("url")}`).then(file =>
     file.blob().then(blb => parseCSV(blb))
   );

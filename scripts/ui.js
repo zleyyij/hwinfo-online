@@ -67,7 +67,6 @@ function createButtonLi(name, dataToDraw, id) {
     btn.id = id;
     btn.onclick = function () {
       createDiv(name);
-      console.log(dataToDraw)
       drawGraph([{name: name, data: dataToDraw}], name);
       scrollToDiv(name);
     };
@@ -173,9 +172,11 @@ export function makeSearchResults() {
   }
 }
 
-//parsing the object, consolidating graphs, sorting them, so on and so forth
+/**
+ * Generate graphs of a few presets
+ */
 export function buildGraphs() {
-  console.time("Building graphs");
+  console.time("Building preconfigured graphs");
   /*****************************************************
    * XKCD 974                         *
    ****************************************************/
@@ -269,7 +270,7 @@ export function buildGraphs() {
   srs = [];
 
   document.getElementById("loadingIcon").style.display = "none";
-  console.timeEnd("Building graphs");
+  console.timeEnd("Building preconfigured graphs");
 }
 
 /*Event Listeners*/
