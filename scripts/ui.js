@@ -166,8 +166,10 @@ export function makeSearchResults() {
   if (
     document.getElementById("searchResults").getElementsByTagName("li") !== null
   ) {
-    for (let i in parsedData) {
-      createButtonLi(i, parsedData[i], i + "-button");
+    // sort things alphabetically
+    const sortedKeys = Object.keys(parsedData).sort();
+    for (const key of sortedKeys) {
+      createButtonLi(key, parsedData[key], key + "-button");
     }
   }
 }
