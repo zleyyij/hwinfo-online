@@ -1,15 +1,14 @@
-// TODO: make it so that node_modules isn't floating around, make it so that this all isn't terrible
-
 //neat little object where all results are kept
-import hwgv_parser, { parse_csv } from "./hwgv-parser/pkg/hwgv_parser.js";
+import hwgv_parser, { parse_csv } from "./parser/pkg/hwgv_parser.js";
 import { buildGraphs, makeSearchResults } from "./ui.js";
+
 // initialize the wasm import
 // this should be preloaded
 await hwgv_parser();
 
 export let parsedData = {};
 
-let charts = [];
+export let charts = [];
 
 //highcharts theming
 Highcharts.theme = {

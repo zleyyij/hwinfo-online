@@ -1,3 +1,5 @@
+import {charts} from "./index.js";
+
 // https://stackoverflow.com/questions/60981769/resizable-sidebar-drag-to-resize
 const documentRoot = document.querySelector(":root");
 // this element sits behind the sidebar and drags
