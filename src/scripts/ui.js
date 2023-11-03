@@ -125,19 +125,19 @@ function showButtonList() {
 }
 
 // TODO: this is probably broken
-function dragOverHandler(ev) {
+function dragOverHandler(e) {
   // Prevent default behavior (Prevent file from being opened)
-  ev.preventDefault();
+  e.preventDefault();
 }
 
-function dropHandler(event) {
+function dropHandler(e) {
   // Prevent default behavior (Prevent file from being opened)
-  event.preventDefault();
-  if (event.dataTransfer.items) {
+  e.preventDefault();
+  if (e.dataTransfer.items) {
     document.getElementById("loadingIcon").style.display = "";
     document.getElementById("welcomeMessage").style.display = "none";
     // Use DataTransferItemList interface to access the file(s)
-    const item = event.dataTransfer.items[0];
+    const item = e.dataTransfer.items[0];
       // If dropped items aren't files, reject them
       if (item.kind === "file") {
         parseCSV(item.getAsFile());
@@ -153,12 +153,27 @@ function dropHandler(event) {
     
   } else {
     // Use DataTransfer interface to access the file(s)
-    [...event.dataTransfer.files].forEach((file, i) => {});
+    [...e.dataTransfer.files].forEach((file, i) => {});
   }
 }
 
-document.getElementsByClassName("dropzone")[0].addEventListener("drop" , (e )=> dropHandler(e));
-document.getElementsByClassName("dropzone")[0].addEventListener("dragover" , (e )=> dragOverHandler(e));
+document.getElementsByClassName("dropzone")[0].addEventListener("drop", (e) => dropHandler(e));
+document.getElementsByClassName("dropzone")[0].addEventListener("dragover", (e) => dragOverHandler(e));
+
+// make the url input box on the welcome message work
+// draw graphs when a url is entered into the url box
+function urlInputHandler() {
+  // redirect to a url that fetches the url, and parses it
+  let url = document.getElementById("urlInput").value;
+  console.log(url)
+  window.location.replace(`.?url=${url}`)
+}
+
+document.getElementById("urlInput").addEventListener("keyup", (e) => {
+  if (e.key === 'Enter') {
+    urlInputHandler();
+  }
+})
 
 //generating a bunch of buttons for the graph menu
 export function makeSearchResults() {
@@ -343,8 +358,8 @@ document
 //on multi point graph checkbox, do the thing
 document
   .getElementById("multiPointGraphCheckbox")
-  .addEventListener("change", event => {
-    if (event.currentTarget.checked) {
+  .addEventListener("change", (e) => {
+    if (e.currentTarget.checked) {
       showCheckBoxList();
       document.getElementById("multiPointUI").style.display = "";
     } else {

@@ -2,18 +2,16 @@
 bold=$(tput bold)
 normal=$(tput sgr0)
 
-echo "> ${bold}Compiling the parser...${normal}"
+echo "> ${bold}Compiling the parser...${normal}\n"
 cd src/scripts/parser/; wasm-pack build --target web; cd -
 
-echo "> ${bold}Copying essential files to target/...${normal}"
-mkdir target/
+echo "> ${bold}Copying essential files to target/...${normal}\n"
+mkdir -p target/scripts/parser/pkg
 cp -rv src/index.html target/
-cp -rv src/styles/ target/
-cp -rv src/assets/ target/
-mkdir -p target/scripts/parser/pkg/
+cp -rv src/assets/ target/assets/
+cp -rv src/styles/ target/styles/
 cp -rv src/scripts/*.js target/scripts/
 cp -rv src/scripts/lib/ target/scripts/lib/
 cp -rv src/scripts/parser/pkg/* target/scripts/parser/pkg/
 
-echo "> ${bold} Starting Docker build...${normal}"
-docker build -t arcinc/hwgv .
+echo "> ${bold}Build complete, run 'docker build -t arcinc/hwgv .' to build the Docker image.${normal}\n"

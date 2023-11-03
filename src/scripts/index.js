@@ -1,4 +1,4 @@
-//neat little object where all results are kept
+// TODO; get rid of jquery
 import hwgv_parser, { parse_csv } from "./parser/pkg/hwgv_parser.js";
 import { buildGraphs, makeSearchResults } from "./ui.js";
 
@@ -217,8 +217,7 @@ export async function parseCSV(
   //document.getElementById("loadingIcon").style.display = "none";
 }
 
-/* Sidebar JS */
-
+// if a file is uploaded using the upload button, do the thing
 let upCheck = document.getElementById("uploadedFile");
 const urlParams = new URLSearchParams(window.location.search);
 if (urlParams.get("url") == null) {
@@ -233,3 +232,17 @@ if (urlParams.get("url") == null) {
     file.blob().then(blb => parseCSV(blb))
   );
 }
+
+// if a file is pasted, do the thing
+document.addEventListener("paste", async (e) => {
+  // read the file from the clipboard, if there is one
+  if (e.clipboardData.files.length == 0) {
+    return;
+  }
+  // non-null assertion: there's at least one because of the above check
+  const file = e.clipboardData.files.item(0);
+  // parse the csv, draw graphs, et cetera
+  if (file.type.endsWith('csv')) {
+    parseCSV(file);
+  }
+});

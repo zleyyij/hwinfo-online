@@ -215,11 +215,21 @@ input[type="checkbox"] {
 /*Overlay*/
 .overlay {
     margin: auto;
-    top: 50%;
+    top: 40%;
     width: 100%;
+    z-index: 1;
     position: fixed;
-    z-index: -10;
     color: #ffffff;
+}
+
+.overlay input[type="url"] {
+    background-color: #00000000;
+    border-color: #ffffff;
+    border-style: solid;
+    color: #aaaaaa;
+}
+.overlay ::placeholder {
+    color: #999999;
 }
 
 
@@ -254,7 +264,6 @@ input[type="checkbox"] {
     margin-right: 50%;
     width: 12rem;
     margin-top: -7.5%;
-
     font-size: 20px;
     text-align: center;
 }
