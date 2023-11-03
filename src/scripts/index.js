@@ -119,8 +119,6 @@ function formatTime(unformattedTime) {
     if (elapsedTime >= maxTime) {
       maxTime = elapsedTime;
     } else {
-      // if the log is running past midnight,
-      console.log("elapsed time:", elapsedTime, "maxTime:", maxTime);
       // everything will break and display -24h
       // to counter, add 24h in seconds
       elapsedTime += 86400;
