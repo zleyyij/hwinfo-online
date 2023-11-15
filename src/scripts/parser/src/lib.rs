@@ -8,29 +8,6 @@ use std::collections::HashMap;
 use wasm_bindgen::prelude::*;
 mod lexer;
 mod parser;
-// https://rustwasm.github.io/wasm-bindgen/examples/console-log.html
-#[wasm_bindgen]
-extern "C" {
-    // Use `js_namespace` here to bind `console.log(..)` instead of just
-    // `log(..)`
-    #[wasm_bindgen(js_namespace = console)]
-    fn log(s: &str);
-    // The `console.log` is quite polymorphic, so we can bind it with multiple
-    // signatures. Note that we need to use `js_name` to ensure we always call
-    // `log` in JS.
-    #[wasm_bindgen(js_namespace = console, js_name = log)]
-    fn log_u32(a: u32);
-    // Multiple arguments too!
-    #[wasm_bindgen(js_namespace = console, js_name = log)]
-    fn log_many(a: &str, b: &str);
-}
-
-// https://rustwasm.github.io/wasm-bindgen/examples/console-log.html
-macro_rules! console_log {
-    // Note that this is using the `log` function imported above during
-    // `bare_bones`
-    ($($t:tt)*) => (log(&format_args!($($t)*).to_string()))
-}
 
 // the same function as parse_csv, but with some wasm glue code around it
 #[wasm_bindgen(js_name = parse_csv)]
@@ -63,6 +40,8 @@ mod tests {
     use super::parse_csv;
     use std::cell::RefCell;
     use std::collections::HashMap;
+    use std::fs::File;
+    use std::io::Read;
 
     // ISO-8859-1 encoding is really close to UTF-8, so more general characters are fine
     fn gen_mock_csv(num_rows: usize, num_columns: usize) -> (String, HashMap<String, Vec<f64>>) {
@@ -114,7 +93,7 @@ mod tests {
             horizontally_merged_spreadsheet.push(output_string);
         }
 
-        (horizontally_merged_spreadsheet.join("\n"), map_equivalent)
+        (horizontally_merged_spreadsheet.join("\n") + "\n", map_equivalent)
     }
 
     #[test]
@@ -125,5 +104,13 @@ mod tests {
         // let mut file_vec = Vec::new();
         // file_handle.read_to_end(&mut file_vec).unwrap();
         parse_csv(&mock_csv.0.bytes().collect::<Vec<u8>>());
+    }
+
+    #[test]
+    fn parse_csv_from_file() {
+        let mut file_handle = File::open("C:\\Users\\James Boehme\\Downloads\\stress.CSV").unwrap();
+        let mut file_vec = Vec::new();
+        file_handle.read_to_end(&mut file_vec).unwrap();
+        parse_csv(&file_vec);
     }
 }
