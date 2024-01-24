@@ -80,7 +80,7 @@ mod tests {
                 }
             }
         }
-        // go through, concatecate all of the rows
+        // go through, concatenate all of the rows
         let mut horizontally_merged_spreadsheet: Vec<String> = Vec::with_capacity(num_columns);
         for unmerged_row in mock_spreadsheet {
             // all of the entries are merged into this string
