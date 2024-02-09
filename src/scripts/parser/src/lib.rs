@@ -108,7 +108,8 @@ mod tests {
 
     #[test]
     fn parse_csv_from_file() {
-        let mut file_handle = File::open("C:\\Users\\James Boehme\\Downloads\\stress.CSV").unwrap();
+        // TODO
+        let mut file_handle = File::open("/Users/arc/Downloads/log11.csv").unwrap();
         let mut file_vec = Vec::new();
         file_handle.read_to_end(&mut file_vec).unwrap();
         parse_csv(&file_vec);
