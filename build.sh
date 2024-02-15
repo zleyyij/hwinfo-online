@@ -8,6 +8,7 @@ cd src/scripts/parser/; wasm-pack build --target web; cd -
 echo "> ${bold}Copying essential files to target/...${normal}\n"
 mkdir -p target/scripts/parser/pkg
 cp -rv src/index.html target/
+cp -rv src/manifest.json target/
 cp -rv src/assets/ target/assets/
 cp -rv src/styles/ target/styles/
 cp -rv src/scripts/*.js target/scripts/

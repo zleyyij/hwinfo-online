@@ -1,0 +1,12 @@
+{
+    "name": "HWGV",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "icons": [
+        {
+            "src": "assets/pwa.png",
+            "type": "image/png",
+            "sizes": "500x500"
+        }
+    ]
+}
