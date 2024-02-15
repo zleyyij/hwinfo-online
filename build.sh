@@ -6,11 +6,13 @@ echo "> ${bold}Compiling the parser...${normal}\n"
 cd src/scripts/parser/; wasm-pack build --target web; cd -
 
 echo "> ${bold}Copying essential files to target/...${normal}\n"
-mkdir -p target/scripts/parser/pkg
+mkdir -pv target/scripts/parser/pkg
+mkdir -pv target/assets
+mkdir -pv target/styles
 cp -rv src/index.html target/
 cp -rv src/manifest.json target/
-cp -rv src/assets/ target/assets/
-cp -rv src/styles/ target/styles/
+cp -rv src/assets/* target/assets/
+cp -rv src/styles/* target/styles/
 cp -rv src/scripts/*.js target/scripts/
 cp -rv src/scripts/lib/ target/scripts/lib/
 cp -rv src/scripts/parser/pkg/* target/scripts/parser/pkg/
