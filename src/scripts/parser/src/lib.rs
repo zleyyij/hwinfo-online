@@ -1,13 +1,14 @@
 #![allow(soft_unstable)]
-// #![feature(test)]
+mod lang;
+mod lexer;
+mod parser;
+
 use encoding::{all::ISO_8859_1, Encoding};
 use lexer::lexer::lex_csv;
 use parser::parser::deserialize_csv;
 use std::borrow::Cow;
 use std::collections::HashMap;
 use wasm_bindgen::prelude::*;
-mod lexer;
-mod parser;
 
 // the same function as parse_csv, but with some wasm glue code around it
 #[wasm_bindgen(js_name = parse_csv)]
@@ -93,7 +94,10 @@ mod tests {
             horizontally_merged_spreadsheet.push(output_string);
         }
 
-        (horizontally_merged_spreadsheet.join("\n") + "\n", map_equivalent)
+        (
+            horizontally_merged_spreadsheet.join("\n") + "\n",
+            map_equivalent,
+        )
     }
 
     #[test]
@@ -109,7 +113,7 @@ mod tests {
     #[test]
     fn parse_csv_from_file() {
         // TODO
-        let mut file_handle = File::open("/Users/arc/Downloads/log11.csv").unwrap();
+        let mut file_handle = File::open("/Users/arc/Downloads/asd.csv").unwrap();
         let mut file_vec = Vec::new();
         file_handle.read_to_end(&mut file_vec).unwrap();
         parse_csv(&file_vec);
