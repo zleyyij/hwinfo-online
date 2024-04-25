@@ -3,7 +3,7 @@ bold=$(tput bold)
 normal=$(tput sgr0)
 
 echo "> ${bold}Compiling the parser...${normal}\n"
-cd src/scripts/parser/; wasm-pack build --target web; cd -
+cd src/scripts/parser/; wasm-pack build --debug --target web; cd -
 
 echo "> ${bold}Copying essential files to target/...${normal}\n"
 mkdir -pv target/scripts/parser/pkg
