@@ -52,7 +52,7 @@ pub mod parser {
         if column[0] == "Date" {
             return;
         }
-        // the date is skipped because it's not really valuble overhead
+        // the date is skipped because it's not really needed
         for entry in &column[1..column.len()] {
             // handle special cases
             match *entry {
@@ -84,7 +84,7 @@ pub mod parser {
                     }
                     #[cfg(not(wasm))]
                     {
-                        println!("Failed to parse entry {entry} into a float, skipping");
+                        println!("Failed to parse entry {entry} into a float, skipping column {}", column[0]);
                     }
                 }
             }
@@ -95,10 +95,17 @@ pub mod parser {
         // because hashmaps can't have two duplicate keys, append (n) to keys that already exit in the map
         while map.contains_key(insertion_key.as_str()) {
             // select the last 3 chars, and strip parentheses and whitespace, before parsing it to a number
-            let last_chars = &insertion_key.chars().collect::<Vec<char>>()
-                [insertion_key.len() - 3..]
+            // while 3 chars is generally better, fallback to single char to avoid subtraction with overflow
+            let last_chars = if insertion_key.chars().count() >= 3 {
+                insertion_key.chars().collect::<Vec<char>>()
+                // .chars().count() is used here instead of .len() because .len()
+                // breaks for multibyte chars
+                [insertion_key.chars().count() - 3..]
                 .iter()
-                .collect::<String>();
+                .collect::<String>()
+            } else {
+                insertion_key.to_string()
+            };
             // sometimes there's more than one duplicate
             if last_chars.ends_with(")") {
                 // the "number" found at the end, as a string
@@ -269,6 +276,23 @@ pub mod parser {
             expected_output.insert("c".to_owned(), vec![2.0, 2.0]);
 
             assert_eq!(deserialize_csv(mock_csv), expected_output);
+        }
+
+        #[test]
+        fn multibyte_utf8_column_header() {
+            let mock_csv = vec![
+                vec!["🦆", "🦆", "🦆"],
+                vec!["0.0", "1.0", "2.0"],
+                vec!["0.0", "1.0", "2.0"],
+                vec!["🦆", "🦆", "🦆"],
+            ];
+            let mut expected_output: HashMap<String, Vec<f64>> = HashMap::new();
+            expected_output.insert("🦆".to_owned(), vec![0.0, 0.0]);
+            expected_output.insert("🦆 (1)".to_owned(), vec![1.0, 1.0]);
+            expected_output.insert("🦆 (2)".to_owned(), vec![2.0, 2.0]);
+
+            assert_eq!(deserialize_csv(mock_csv), expected_output);
+
         }
     }
 }

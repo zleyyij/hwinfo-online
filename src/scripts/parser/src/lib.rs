@@ -1,5 +1,4 @@
 #![allow(soft_unstable)]
-mod lang;
 mod lexer;
 mod parser;
 
@@ -113,7 +112,7 @@ mod tests {
     #[test]
     fn parse_csv_from_file() {
         // TODO
-        let mut file_handle = File::open("/Users/arc/Downloads/asd.csv").unwrap();
+        let mut file_handle = File::open("/Users/arc/Downloads/help.csv").unwrap();
         let mut file_vec = Vec::new();
         file_handle.read_to_end(&mut file_vec).unwrap();
         parse_csv(&file_vec);
