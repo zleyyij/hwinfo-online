@@ -2,12 +2,10 @@
 mod lexer;
 mod parser;
 
-use encoding::all::{UTF_16BE, UTF_16LE, UTF_8};
-use encoding::codec::utf_8::from_utf8;
-use encoding::{all::ISO_8859_1, Encoding};
+use encoding::all::UTF_8;
+use encoding::Encoding;
 use lexer::lexer::lex_csv;
 use parser::parser::deserialize_csv;
-use std::borrow::Cow;
 use std::collections::HashMap;
 use wasm_bindgen::prelude::*;
 
@@ -20,23 +18,22 @@ pub fn parse_csv_wasm(raw_csv: &[u8]) -> JsValue {
 
 fn parse_csv(raw_csv: &[u8]) -> HashMap<String, Vec<f64>> {
     // translate the csv from ISO-8859-1 to a UTF 8 strings
-    let transcoded_csv =
-        transcode_csv(raw_csv);
+    let transcoded_csv = transcode_csv(raw_csv);
     let lexed_csv: Vec<Vec<&str>> = lex_csv(&transcoded_csv).unwrap();
     let parsed_csv: HashMap<String, Vec<f64>> = deserialize_csv(lexed_csv);
     return parsed_csv;
 }
 
 /// Ever since HWINFO 8.0 (<https://www.hwinfo.com/version-history/>), logs are encoded with
-/// unicode, switching from ISO-8559-1 encoding. 
+/// unicode, switching from ISO-8559-1 encoding.
 /// Take a buffer of presumably UTF-8 encoded bytes, and transcode them to a standard rust String.
 #[inline]
 fn transcode_csv(unencoded_csv: &[u8]) -> String {
     // see if it's valid utf 8, for some reason the encoding crate handles this better than the standard library's implementation
-    match UTF_16BE.decode(unencoded_csv, encoding::DecoderTrap::Strict) {
+    match UTF_8.decode(unencoded_csv, encoding::DecoderTrap::Strict) {
         Ok(s) => return s,
         Err(e) => {
-            console_log!("warning: the provided file is not valid UTF 8: interpreting with UTF-8 failed with error {e:?}, falling back to UTF-8 with replacement");
+            console_log!("warning: The provided file is not valid UTF 8: interpreting with UTF-8 failed with error {e:?}, falling back to UTF-8 with replacement.");
             // match ISO_8859_1.decode(iso_8859_1_csv, encoding::DecoderTrap::Strict) {
             //     Ok(s) => return s,
             //     Err(e) => {
@@ -44,9 +41,11 @@ fn transcode_csv(unencoded_csv: &[u8]) -> String {
             //         return UTF_8.decode(iso_8859_1_csv, encoding::DecoderTrap::Replace).unwrap();
             //     }
             // this is fine because Replace should be infallible(within reason)
-            return UTF_8.decode(unencoded_csv, encoding::DecoderTrap::Replace).unwrap()
-            }
+            return UTF_8
+                .decode(unencoded_csv, encoding::DecoderTrap::Replace)
+                .unwrap();
         }
+    }
     // }
     // if let Err(e) = UTF_8.decode(iso_8859_1_csv, encoding::DecoderTrap::Strict) {
     //     console_log!("Warning: input file contains invalid UTF-8: {e:?}");
@@ -66,7 +65,6 @@ mod tests {
     use std::fs::File;
     use std::io::Read;
 
-    // ISO-8859-1 encoding is really close to UTF-8, so more general characters are fine
     fn gen_mock_csv(num_rows: usize, num_columns: usize) -> (String, HashMap<String, Vec<f64>>) {
         // todo!()
         let mock_spreadsheet: Vec<Vec<RefCell<String>>> =
@@ -135,9 +133,9 @@ mod tests {
     #[test]
     fn parse_csv_from_file() {
         // TODO
-        let mut file_handle = File::open("/Users/arc/Downloads/help.csv").unwrap();
-        let mut file_vec = Vec::new();
-        file_handle.read_to_end(&mut file_vec).unwrap();
-        parse_csv(&file_vec);
+        // let mut file_handle = File::open("/Users/arc/Downloads/HWINFO.CSV").unwrap();
+        // let mut file_vec = Vec::new();
+        // file_handle.read_to_end(&mut file_vec).unwrap();
+        // parse_csv(&file_vec);
     }
 }

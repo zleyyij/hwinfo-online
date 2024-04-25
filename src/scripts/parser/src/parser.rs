@@ -79,14 +79,7 @@ pub mod parser {
                     processed_column.push(parsed_val);
                 }
                 Err(_) => {
-                    #[cfg(wasm)]
-                    {
-                        console_log!("Failed to parse entry {entry} into a float, skipping");
-                    }
-                    #[cfg(not(wasm))]
-                    {
-                        println!("Failed to parse entry {entry} into a float, skipping column {}", column[0]);
-                    }
+                    console_log!("Failed to parse entry {entry} into a float, skipping");
                 }
             }
         }
@@ -102,8 +95,8 @@ pub mod parser {
                 // .chars().count() is used here instead of .len() because .len()
                 // breaks for multibyte chars
                 [insertion_key.chars().count() - 3..]
-                .iter()
-                .collect::<String>()
+                    .iter()
+                    .collect::<String>()
             } else {
                 insertion_key.to_string()
             };
@@ -167,13 +160,18 @@ pub mod parser {
     /// in a hwinfo csv, translate to another vec of vectors, where
     /// the output is a list of columns
     fn rows_to_columns(input: Vec<Vec<&str>>) -> Vec<Vec<&str>> {
+        // I don't know how to make it warn that the last column is malformed only once
+        let mut sent_warning = false;
         let mut columnar_input: Vec<Vec<&str>> =
             vec![Vec::with_capacity(input.len()); input[0].len()];
         for row in input {
             for (index, item) in row.iter().enumerate() {
                 // sometimes there are other columns that are longer than the first column
                 if columnar_input.len() - 1 < index {
-                    console_log!("The last column in this CSV file is malformed, skipping. Please open in a spreadsheet to view");
+                    if !sent_warning {
+                        console_log!("warning: The last column in this CSV file is malformed, skipping. Please open in a spreadsheet to view.");
+                        sent_warning = true;
+                    }
                 } else {
                     columnar_input[index].push(*item);
                 }
@@ -293,7 +291,6 @@ pub mod parser {
             expected_output.insert("🦆 (2)".to_owned(), vec![2.0, 2.0]);
 
             assert_eq!(deserialize_csv(mock_csv), expected_output);
-
         }
     }
 }
