@@ -5,7 +5,7 @@ extern "C" {
     // Use `js_namespace` here to bind `console.log(..)` instead of just
     // `log(..)`
     #[wasm_bindgen(js_namespace = console)]
-    fn log(s: &str);
+    pub fn log(s: &str);
     // The `console.log` is quite polymorphic, so we can bind it with multiple
     // signatures. Note that we need to use `js_name` to ensure we always call
     // `log` in JS.
@@ -17,13 +17,14 @@ extern "C" {
 }
 
 // https://rustwasm.github.io/wasm-bindgen/examples/console-log.html
+#[macro_export]
 macro_rules! console_log {
     // Note that this is using the `log` function imported above during
     // `bare_bones`
     ($($t:tt)*) => (
-        #[cfg(wasm)]
-        log(&format_args!($($t)*).to_string());
-        #[cfg(not(wasm))]
+        #[cfg(all(target_arch = "wasm32", target_os = "unknown"))]
+        crate::parser::log(&format_args!($($t)*).to_string());
+        #[cfg(not(all(target_arch = "wasm32", target_os = "unknown")))]
         println!("{}", &format_args!($($t)*).to_string())
     )
 }

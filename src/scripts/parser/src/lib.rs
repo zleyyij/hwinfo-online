@@ -2,6 +2,8 @@
 mod lexer;
 mod parser;
 
+use encoding::all::{UTF_16BE, UTF_16LE, UTF_8};
+use encoding::codec::utf_8::from_utf8;
 use encoding::{all::ISO_8859_1, Encoding};
 use lexer::lexer::lex_csv;
 use parser::parser::deserialize_csv;
@@ -19,19 +21,40 @@ pub fn parse_csv_wasm(raw_csv: &[u8]) -> JsValue {
 fn parse_csv(raw_csv: &[u8]) -> HashMap<String, Vec<f64>> {
     // translate the csv from ISO-8859-1 to a UTF 8 strings
     let transcoded_csv =
-        transcode_csv(raw_csv).expect("Provided input is not valid ISO-8559-1 encoding");
+        transcode_csv(raw_csv);
     let lexed_csv: Vec<Vec<&str>> = lex_csv(&transcoded_csv).unwrap();
     let parsed_csv: HashMap<String, Vec<f64>> = deserialize_csv(lexed_csv);
     return parsed_csv;
 }
 
-/// Take a buffer of ISO 8559-1 encoded bytes, and transcode them to a standard rust String.
-/// Panics if the provided input is invalid
+/// Ever since HWINFO 8.0 (<https://www.hwinfo.com/version-history/>), logs are encoded with
+/// unicode, switching from ISO-8559-1 encoding. 
+/// Take a buffer of presumably UTF-8 encoded bytes, and transcode them to a standard rust String.
 #[inline]
-fn transcode_csv(iso_8859_1_csv: &[u8]) -> std::result::Result<String, Cow<'_, str>> {
+fn transcode_csv(unencoded_csv: &[u8]) -> String {
+    // see if it's valid utf 8, for some reason the encoding crate handles this better than the standard library's implementation
+    match UTF_16BE.decode(unencoded_csv, encoding::DecoderTrap::Strict) {
+        Ok(s) => return s,
+        Err(e) => {
+            console_log!("warning: the provided file is not valid UTF 8: interpreting with UTF-8 failed with error {e:?}, falling back to UTF-8 with replacement");
+            // match ISO_8859_1.decode(iso_8859_1_csv, encoding::DecoderTrap::Strict) {
+            //     Ok(s) => return s,
+            //     Err(e) => {
+            //         console_log!("Unable to interpret as ISO-8559-1, falling back to UTF-8 with replacement, may god help us all (failed with {e:?}");
+            //         return UTF_8.decode(iso_8859_1_csv, encoding::DecoderTrap::Replace).unwrap();
+            //     }
+            // this is fine because Replace should be infallible(within reason)
+            return UTF_8.decode(unencoded_csv, encoding::DecoderTrap::Replace).unwrap()
+            }
+        }
+    // }
+    // if let Err(e) = UTF_8.decode(iso_8859_1_csv, encoding::DecoderTrap::Strict) {
+    //     console_log!("Warning: input file contains invalid UTF-8: {e:?}");
+    // }
+    // UTF_8.decode(iso_8859_1_csv, encoding::DecoderTrap::Replace)
     // convert the input to an actual encoding
-    let decoded_file = ISO_8859_1.decode(iso_8859_1_csv, encoding::DecoderTrap::Strict)?;
-    Ok(decoded_file)
+    // let decoded_file = ISO_8859_1.decode(iso_8859_1_csv, encoding::DecoderTrap::Strict)?;
+    // Ok(decoded_file)
 }
 
 #[cfg(test)]
