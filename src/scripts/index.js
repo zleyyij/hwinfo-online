@@ -188,7 +188,7 @@ export function drawGraph(srs = [], divName) {
     console.error("tried to draw graph with no items in list.");
   }
 }
-
+console.log(document.getElementById("uploadedFile").files);
 export async function parseCSV(
   file = document.getElementById("uploadedFile").files[0]
 ) {
@@ -196,9 +196,20 @@ export async function parseCSV(
   document.getElementById("welcomeMessage").style.display = "none";
   // show the loading icon
   document.getElementById("loadingIcon").style.display = "";
+  // Clear the searchbar
+  document.getElementById("graphSearch").value = "";
+  document.getElementById("searchResults").replaceChildren();
   console.time("CSV parsing time");
   // wipe the results, in case a new file is being rendered
+  for (const chart of charts) {
+    chart.destroy();
+  }
+  for (const key in parsedData) {
+    // Directly modify every array to wipe them in case the garbage collector doesn't behave like we want it to
+    parsedData[key].length = 0;
+  }
   parsedData = {};
+  charts = [];
   // just delete *all of the charts*
   document.getElementById("chartDiv").replaceChildren();
   const fileAsBuffer = await file.arrayBuffer();
@@ -222,7 +233,7 @@ if (urlParams.get("url") == null) {
   upCheck.onchange = function () {
     document.getElementById("loadingIcon").style.display = "";
     document.getElementById("welcomeMessage").style.display = "none";
-    parseCSV();
+    parseCSV(document.getElementById("uploadedFile").files[0]);
   };
 } else {
   // TODO: make it so that this whole schtick isn't hardcoded
