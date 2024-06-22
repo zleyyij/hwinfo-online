@@ -35,5 +35,5 @@ jobs:
       - name: Build docker image
         run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/hwgv .
 
-      - name: ush docker image
+      - name: Push docker image
         run: docker push arcinc/hwgv

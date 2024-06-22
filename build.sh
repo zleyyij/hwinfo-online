@@ -17,4 +17,4 @@ cp -rv src/scripts/*.js target/scripts/
 cp -rv src/scripts/lib/ target/scripts/lib/
 cp -rv src/scripts/parser/pkg/* target/scripts/parser/pkg/
 
-echo "> ${bold}Build complete, run 'docker build -t arcinc/hwgv .' to build the Docker image.${normal}\n"
+echo "> ${bold}Build complete${normal}\n"
