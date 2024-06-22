@@ -11,26 +11,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        
-      - name: Install rust toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-
-      - name: Install wasm-pack
-        run: cargo install wasm-pack
-
-      - name: Cache dependancies
-        uses: Swatinem/rust-cache@v2
 
       - name: Login to docker hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Run build script
-        run: sh ./build.sh
 
       - name: Build docker image
         run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/hwgv .
