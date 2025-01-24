@@ -42,7 +42,7 @@ html {
     display: flex;
 }
 
-#fileUpload {
+#sidebarControls {
     margin-top: 20px;
 }
 
@@ -160,12 +160,16 @@ input[type="checkbox"] {
     margin: 0;
 }
 
-#uploadedFile::file-selector-button, #uploadedFile::-webkit-file-upload-button {
+#uploadedFile.custom-file-input {
     display: none;
 }
 
-.custom-file .custom-file-label::after {
+#welcomeMessage .custom-file-label::after {
     display: none;
+}
+
+.custom-file-label {
+    position: relative;
 }
 
 #searchResults {
