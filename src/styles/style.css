@@ -16,7 +16,15 @@ File organization:
 
 */
 
-
+:root {
+    --dark0: #2E3440;
+    --dark1: #3B4252;
+    --dark2: #4c566a;
+    --white0: #F5F5F5;
+    --pink: #fdcbf1;
+    --purple: #B48EAD;
+    --blue: #b5def8;
+}
 
 :root {
     --sidebar-width: 14rem;
@@ -24,7 +32,7 @@ File organization:
 
 body {
     display: flex;
-    background-color: #3B4252;
+    background-color: var(--dark1);
     min-height: 100%;
     min-width: 100%;
     margin: 0;
@@ -48,32 +56,32 @@ html {
 
 .scrollbar-frozen-dreams::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-    background-color: #F5F5F5;
+    background-color: var(--white0);
     border-radius: 10px;
 }
 
 .scrollbar-frozen-dreams::-webkit-scrollbar {
     width: 12px;
-    background-color: #F5F5F5;
+    background-color: var(--white0);
 }
 
 .scrollbar-frozen-dreams::-webkit-scrollbar-thumb {
     border-radius: 10px;
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-    background-image: -webkit-gradient(linear, left bottom, left top, from(#fdcbf1), color-stop(1%, #fdcbf1),
+    background-image: -webkit-gradient(linear, left bottom, left top, from(var(--pink)), color-stop(1%, var(--pink)),
     to(#e6dee9));
-    background-image: -webkit-linear-gradient(bottom, #fdcbf1 0%, #fdcbf1 1%, #e6dee9 100%);
-    background-image: linear-gradient(to top, #fdcbf1 0%, #fdcbf1 1%, #e6dee9 100%);
+    background-image: -webkit-linear-gradient(bottom, var(--pink) 0%, var(--pink) 1%, #e6dee9 100%);
+    background-image: linear-gradient(to top, var(--pink) 0%, var(--pink) 1%, #e6dee9 100%);
 }
 
 
 /* Sidebar*/
 .button:hover {
-    background-color: #3B4252;
+    background-color: var(--dark1);
 }
 
 .button {
-    background-color: #B48EAD;
+    background-color: var(--purple);
     border: none;
     color: white;
     /*padding: 10px 10px;*/
@@ -94,7 +102,7 @@ input[type="checkbox"] {
 }
 
 .sidebar {
-    background-color: #2E3440;
+    background-color: var(--dark0);
     position: fixed;
     flex-direction: column;
     width: var(--sidebar-width);
@@ -111,7 +119,7 @@ input[type="checkbox"] {
 }
 
 .material-symbols-outlined {
-    color: #F5F5F5;
+    color: var(--white0);
     -webkit-user-select: none; /* Safari */
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* IE10+/Edge */
@@ -187,8 +195,8 @@ input[type="checkbox"] {
 #searchResults li button {
     display: inline-block;
     width: 100%;
-    background-color: #4c566a;
-    border: 1px solid #F5F5F5;
+    background-color: var(--dark2);
+    border: 1px solid var(--white0);
     color: white;
     padding: 5px 8px;
     text-align: center;
@@ -203,7 +211,7 @@ input[type="checkbox"] {
 }
 
 #searchResults li button:hover {
-    background-color: #3B4252;
+    background-color: var(--dark1);
 }
 
 #searchDiv {
@@ -247,7 +255,7 @@ input[type="checkbox"] {
     margin: -30px 0 0 -76px;
     border: 5px solid rgba(0, 0, 0, 0);
     border-radius: 50%;
-    border-top: 5px solid #b5def8;
+    border-top: 5px solid var(--blue);
     -webkit-animation: spin 2s linear infinite;
     animation: spin 1.5s linear infinite;
 }
