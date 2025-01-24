@@ -17,13 +17,14 @@ File organization:
 */
 
 :root {
-    --dark0: #2E3440;
-    --dark1: #3B4252;
-    --dark2: #4c566a;
-    --white0: #F5F5F5;
+    --dark00: #191C24;
+    --dark0: #222630;
+    --dark1: #333948;
+    --dark2: #3B4254;
+    --white0: #F3F4F7;
     --pink: #fdcbf1;
     --purple: #B48EAD;
-    --blue: #b5def8;
+    --blue: #AEE2FE;
 }
 
 :root {
@@ -32,7 +33,7 @@ File organization:
 
 body {
     display: flex;
-    background-color: var(--dark1);
+    background-color: var(--dark00);
     min-height: 100%;
     min-width: 100%;
     margin: 0;
@@ -52,6 +53,10 @@ html {
 
 #sidebarControls {
     margin-top: 20px;
+}
+
+#sidebar-container {
+    padding-right: 1rem;
 }
 
 .scrollbar-frozen-dreams::-webkit-scrollbar-track {
@@ -188,7 +193,6 @@ input[type="checkbox"] {
     padding: 0;
     margin-top: 2%;
     overflow-y: scroll;
-    position: absolute;
     z-index: 200;
 }
 
