@@ -70,7 +70,7 @@
             <p>Drag and drop a HWinfo .csv file, select <strong>Choose file</strong> or paste a link to the file you wish to view.</p>
             <input type="file" id="uploadedFile" class="custom-file-input" accept=".csv"/>
             <label class="custom-file-label" for="uploadedFile">Choose file</label>
-            <div id="upload-dialog"></div>
+            <input type="url" id="urlInput" placeholder="Paste link here" pattern="/http.*csv/gi"></input>
         </div>
     </div>
 
@@ -92,5 +92,4 @@
 <script type="module" src="scripts/index.js"></script>
 <script type="module" src="scripts/ui.js"></script>
 <script type="module" src="scripts/sidebar.js"></script>
-<script type="module" src="scripts/uploadDiv.js"></script>
 </html>
