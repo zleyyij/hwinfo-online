@@ -230,11 +230,13 @@ export async function parseCSV(
 // if a file is uploaded using the upload button, do the thing
 let upCheck = document.getElementById("uploadedFile");
 const apiUrl = `${API_URL}`;
-const urlParams = new URLSearchParams(window.location.search);
-let csvUrl = urlParams.toString().replace('url=', '');
 
-// This can't be used becase the URL field stops at any &, making discord URLs break
-// const csvUrl = urlParams.get("url");
+// This is a very hacky way to extract a URL and manually encode the &
+// You must operate on the raw string rather than using the URL property
+//  because `urlParams.get("url")` will terminate at the first &
+const urlParams = new URLSearchParams(window.location.search);
+let ampersandUrl = urlParams.toString().replace('url=', '');
+let csvUrl = ampersandUrl.replace(/&/g, '%26');
 
 console.log(`Raw URL: ${urlParams}`);
 console.log(`Clean URL: ${csvUrl}`);
