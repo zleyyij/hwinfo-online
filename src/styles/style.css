@@ -21,6 +21,7 @@ File organization:
     --dark0: #222630;
     --dark1: #333948;
     --dark2: #3B4254;
+    --dim: #AAAAAA;
     --white0: #F3F4F7;
     --pink: #fdcbf1;
     --purple: #B48EAD;
@@ -87,8 +88,7 @@ html {
 
 .button {
     background-color: var(--purple);
-    border: none;
-    color: white;
+    color: var(--white0);
     /*padding: 10px 10px;*/
     text-align: center;
     text-decoration: none;
@@ -153,7 +153,7 @@ input[type="checkbox"] {
 
 .minimize-icon:hover, .maximize_icon:hover {
     cursor: pointer;
-    color: #AAAAAA;
+    color: var(--dim);
 }
 
 
@@ -183,6 +183,9 @@ input[type="checkbox"] {
 
 .custom-file-label {
     position: relative;
+    color: var(--dark00);
+    background-color: var(--white0);
+    border: inherit;
 }
 
 #searchResults {
@@ -199,9 +202,11 @@ input[type="checkbox"] {
 #searchResults li button {
     display: inline-block;
     width: 100%;
-    background-color: var(--dark2);
-    border: 1px solid var(--white0);
-    color: white;
+    background-color: inherit;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    color: var(--white0);
     padding: 5px 8px;
     text-align: center;
     text-decoration: none;
@@ -220,7 +225,8 @@ input[type="checkbox"] {
 
 #searchDiv {
     margin-top: 10%;
-    border-radius: 0;
+    border: none;
+    background-color: inherit;
     width: 100%;
     position: relative;
     top: 0;
@@ -239,15 +245,15 @@ input[type="checkbox"] {
 }
 
 .overlay input[type="url"] {
-    background-color: #00000000;
-    border-color: #ffffff;
+    background-color: inherit;
+    border-color: var(--white0);
+    border-radius: .25rem;
     border-style: solid;
-    color: #aaaaaa;
+    color: var(--dim);
 }
 .overlay ::placeholder {
     color: #999999;
 }
-
 
 .loading_icon {
     position: absolute;
@@ -286,8 +292,6 @@ input[type="checkbox"] {
 #welcomeMessage input {
     width: 100%;
 }
-
-
 
 /*Charts*/
 .charts {
