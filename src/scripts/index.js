@@ -1,6 +1,7 @@
 // TODO; get rid of jquery
 import hwgv_parser, { parse_csv } from "./parser/pkg/hwgv_parser.js";
 import { buildGraphs, makeSearchResults } from "./ui.js";
+import { API_URL } from '../config.js';
 
 // initialize the wasm import
 // this should be preloaded
@@ -228,16 +229,24 @@ export async function parseCSV(
 
 // if a file is uploaded using the upload button, do the thing
 let upCheck = document.getElementById("uploadedFile");
+const apiUrl = `${API_URL}`;
 const urlParams = new URLSearchParams(window.location.search);
+let csvUrl = urlParams.toString().replace('url=', '');
+
+// This can't be used becase the URL field stops at any &, making discord URLs break
+// const csvUrl = urlParams.get("url");
+
+console.log(`Raw URL: ${urlParams}`);
+console.log(`Clean URL: ${csvUrl}`);
+
 if (urlParams.get("url") == null) {
-  upCheck.onchange = function () {
-    document.getElementById("loadingIcon").style.display = "";
-    document.getElementById("welcomeMessage").style.display = "none";
+    upCheck.onchange = function () {
+        document.getElementById("loadingIcon").style.display = "";
+        document.getElementById("welcomeMessage").style.display = "none";
     parseCSV(document.getElementById("uploadedFile").files[0]);
-  };
+    };
 } else {
-  // TODO: make it so that this whole schtick isn't hardcoded
-  fetch(`https://api.47c.in/hw/?url=${urlParams.get("url")}`).then(file =>
+  fetch(`${apiUrl}/?url=${csvUrl}`).then(file =>
     file.blob().then(blb => parseCSV(blb))
   );
 }
