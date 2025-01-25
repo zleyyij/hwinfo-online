@@ -22,3 +22,23 @@ Optionally, you may run `./build.sh` which will build the parser and copy essent
 
 HWGV will still function if you open `src/index.html`, the build script simply omits nonessential files (rust source files, documentation).
 
+## Using a container
+To build the container:
+```
+docker build -t hwgv .
+```
+
+To run the container:
+```
+docker run --rm -it -p 8080:80 hwgv
+```
+
+## Handling CORS
+The URL functionality of this application depends on having your own CORS stripping backend. To configure your CORS backend create `/src/config.js` and populate it with the following:
+
+```
+// Variable used for the CORS backend
+export const API_URL = 'https://cors.contoso.com';
+```
+
+If this file is not present or configured properly the Upload dialog will not be rendered leaving manual uploads as the only functional method.
