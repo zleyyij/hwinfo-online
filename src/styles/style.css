@@ -177,7 +177,7 @@ input[type="checkbox"] {
     display: none;
 }
 
-#welcomeMessage .custom-file-label::after {
+.custom-file-label::after {
     display: none;
 }
 
