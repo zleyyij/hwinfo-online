@@ -5,7 +5,7 @@ FROM alpine:3.20 as builder
 RUN apk add --no-cache \
     build-base rustup
 RUN rustup-init -y
-RUN /root/.cargo/bin/cargo install wasm-pack
+RUN /root/.cargo/bin/cargo install wasm-pack wasm-bindgen-cli
 
 # create the app directory and copy in source
 RUN mkdir -p /app
