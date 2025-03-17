@@ -16,17 +16,7 @@ File organization:
 
 */
 
-:root {
-    --dark00: #191C24;
-    --dark0: #222630;
-    --dark1: #333948;
-    --dark2: #3B4254;
-    --dim: #AAAAAA;
-    --white0: #F3F4F7;
-    --pink: #fdcbf1;
-    --purple: #B48EAD;
-    --blue: #AEE2FE;
-}
+
 
 :root {
     --sidebar-width: 14rem;
@@ -34,7 +24,7 @@ File organization:
 
 body {
     display: flex;
-    background-color: var(--dark00);
+    background-color: #3B4252;
     min-height: 100%;
     min-width: 100%;
     margin: 0;
@@ -52,43 +42,40 @@ html {
     display: flex;
 }
 
-#sidebarControls {
+#fileUpload {
     margin-top: 20px;
-}
-
-#sidebar-container {
-    padding-right: 1rem;
 }
 
 .scrollbar-frozen-dreams::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-    background-color: var(--white0);
+    background-color: #F5F5F5;
     border-radius: 10px;
 }
 
 .scrollbar-frozen-dreams::-webkit-scrollbar {
     width: 12px;
-    background-color: var(--white0);
+    background-color: #F5F5F5;
 }
 
 .scrollbar-frozen-dreams::-webkit-scrollbar-thumb {
     border-radius: 10px;
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-    background-image: -webkit-gradient(linear, left bottom, left top, from(var(--pink)), color-stop(1%, var(--pink)),
+    background-image: -webkit-gradient(linear, left bottom, left top, from(#fdcbf1), color-stop(1%, #fdcbf1),
     to(#e6dee9));
-    background-image: -webkit-linear-gradient(bottom, var(--pink) 0%, var(--pink) 1%, #e6dee9 100%);
-    background-image: linear-gradient(to top, var(--pink) 0%, var(--pink) 1%, #e6dee9 100%);
+    background-image: -webkit-linear-gradient(bottom, #fdcbf1 0%, #fdcbf1 1%, #e6dee9 100%);
+    background-image: linear-gradient(to top, #fdcbf1 0%, #fdcbf1 1%, #e6dee9 100%);
 }
 
 
 /* Sidebar*/
 .button:hover {
-    background-color: var(--dark1);
+    background-color: #3B4252;
 }
 
 .button {
-    background-color: var(--purple);
-    color: var(--white0);
+    background-color: #B48EAD;
+    border: none;
+    color: white;
     /*padding: 10px 10px;*/
     text-align: center;
     text-decoration: none;
@@ -107,7 +94,7 @@ input[type="checkbox"] {
 }
 
 .sidebar {
-    background-color: var(--dark0);
+    background-color: #2E3440;
     position: fixed;
     flex-direction: column;
     width: var(--sidebar-width);
@@ -124,7 +111,7 @@ input[type="checkbox"] {
 }
 
 .material-symbols-outlined {
-    color: var(--white0);
+    color: #F5F5F5;
     -webkit-user-select: none; /* Safari */
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* IE10+/Edge */
@@ -153,7 +140,7 @@ input[type="checkbox"] {
 
 .minimize-icon:hover, .maximize_icon:hover {
     cursor: pointer;
-    color: var(--dim);
+    color: #AAAAAA;
 }
 
 
@@ -173,19 +160,12 @@ input[type="checkbox"] {
     margin: 0;
 }
 
-#uploadedFile.custom-file-input {
+#uploadedFile::file-selector-button, #uploadedFile::-webkit-file-upload-button {
     display: none;
 }
 
-.custom-file-label::after {
+.custom-file .custom-file-label::after {
     display: none;
-}
-
-.custom-file-label {
-    position: relative;
-    color: var(--dark00);
-    background-color: var(--white0);
-    border: inherit;
 }
 
 #searchResults {
@@ -196,17 +176,16 @@ input[type="checkbox"] {
     padding: 0;
     margin-top: 2%;
     overflow-y: scroll;
+    position: absolute;
     z-index: 200;
 }
 
 #searchResults li button {
     display: inline-block;
     width: 100%;
-    background-color: inherit;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    color: var(--white0);
+    background-color: #4c566a;
+    border: 1px solid #F5F5F5;
+    color: white;
     padding: 5px 8px;
     text-align: center;
     text-decoration: none;
@@ -220,13 +199,12 @@ input[type="checkbox"] {
 }
 
 #searchResults li button:hover {
-    background-color: var(--dark1);
+    background-color: #3B4252;
 }
 
 #searchDiv {
     margin-top: 10%;
-    border: none;
-    background-color: inherit;
+    border-radius: 0;
     width: 100%;
     position: relative;
     top: 0;
@@ -245,15 +223,15 @@ input[type="checkbox"] {
 }
 
 .overlay input[type="url"] {
-    background-color: inherit;
-    border-color: var(--white0);
-    border-radius: .25rem;
+    background-color: #00000000;
+    border-color: #ffffff;
     border-style: solid;
-    color: var(--dim);
+    color: #aaaaaa;
 }
 .overlay ::placeholder {
     color: #999999;
 }
+
 
 .loading_icon {
     position: absolute;
@@ -265,7 +243,7 @@ input[type="checkbox"] {
     margin: -30px 0 0 -76px;
     border: 5px solid rgba(0, 0, 0, 0);
     border-radius: 50%;
-    border-top: 5px solid var(--blue);
+    border-top: 5px solid #b5def8;
     -webkit-animation: spin 2s linear infinite;
     animation: spin 1.5s linear infinite;
 }
@@ -292,6 +270,8 @@ input[type="checkbox"] {
 #welcomeMessage input {
     width: 100%;
 }
+
+
 
 /*Charts*/
 .charts {

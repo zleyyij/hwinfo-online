@@ -2,4 +2,3 @@
 /Cargo.lock
 /pkg
 .DS_Store
-/src/config.js

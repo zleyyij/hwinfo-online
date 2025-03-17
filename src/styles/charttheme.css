@@ -2,7 +2,7 @@
 @import 'https://code.highcharts.com/css/highcharts.css';
 
 .highcharts-background {
-    fill: var(--dark00);
+    fill: #3B4252;
 }
 
 .highcharts-title, .highcharts-subtitle, .highcharts-yaxis .highcharts-axis-title {
