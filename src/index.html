@@ -24,40 +24,40 @@
     <span class="material-symbols-outlined minimize-icon">close</span>
     <span class="material-symbols-outlined maximize_icon">menu</span>
     <div class="sidebar">
-        <div id="sidebar-container">
-            <div style="flex-direction:row;">
-                <img id="logo" src="assets/logo.png">
-                <div id="sidebarControls">
-
-                    <label for="multiPointGraphCheckbox" style="color:#FFFFFF">
-                        <input type="checkbox" id="multiPointGraphCheckbox" name="multiPointGraphCheckbox">
-                        Select Multiple Datapoints to Graph
-                    </label>
-                    <div id="multiPointUI" style="display: none;">
-                        <input type="checkbox" id="remapCheckbox" name="remapCheckbox">
-                        <label for="remapCheckbox" style="color:#FFFFFF">Normalize Datapoints</label>
-                        <div class="custom-file">
-                            <input
-                                    type="button"
-                                    id="createMultiPointGraph"
-                                    value="Create Graph"
-                                    name="createMultiPointGraph"
-                                    class="custom-file-input"
-                            />
-                            <label for="createMultiPointGraph" class="custom-file-label">Create Graph</label>
-                        </div>
+        <div style="flex-direction:row;">
+            <img id="logo" src="assets/logo.png">
+            <div class="custom-file" id="fileUpload">
+                <input type="file" id="uploadedFile" class="custom-file-input" accept=".csv"/>
+                <label class="custom-file-label" for="uploadedFile">Choose file</label>
+                <label for="multiPointGraphCheckbox" style="color:#FFFFFF">
+                    <input type="checkbox" id="multiPointGraphCheckbox" name="multiPointGraphCheckbox">
+                    Select Multiple Datapoints to Graph
+                </label>
+                <div id="multiPointUI" style="display: none;">
+                    <input type="checkbox" id="remapCheckbox" name="remapCheckbox">
+                    <label for="remapCheckbox" style="color:#FFFFFF">Normalize Datapoints</label>
+                    <div class="custom-file">
+                        <input
+                                type="button"
+                                id="createMultiPointGraph"
+                                value="Create Graph"
+                                name="createMultiPointGraph"
+                                class="custom-file-input"
+                        />
+                        <label for="createMultiPointGraph" class="custom-file-label">Create Graph</label>
                     </div>
                 </div>
-                <div id="searchDiv" class="form-control">
-                    <input
-                            type="text"
-                            id="graphSearch"
-                            class="searchbar"
-                            placeholder="Add graph"
-                    />
-                </div>
-                <ul class="scrollbar scrollbar-frozen-dreams" id="searchResults" style="list-style: none"></ul>
             </div>
+
+            <div id="searchDiv" class="form-control">
+                <input
+                        type="text"
+                        id="graphSearch"
+                        class="searchbar"
+                        placeholder="Add graph"
+                />
+            </div>
+            <ul class="scrollbar scrollbar-frozen-dreams" id="searchResults" style="list-style: none"></ul>
         </div>
     </div>
 
@@ -67,9 +67,7 @@
         <div class="loading_icon" id="loadingIcon" style="display: none"></div>
         <div id="welcomeMessage">
             <h2>Welcome to HWGV!</h2>
-            <p>Drag and drop a HWinfo .csv file, select <strong>Choose file</strong> or paste a link to the file you wish to view.</p>
-            <input type="file" id="uploadedFile" class="custom-file-input" accept=".csv"/>
-            <label class="custom-file-label" for="uploadedFile">Choose file</label>
+            <p>Drag and drop a HWinfo .csv file or select <strong>Choose file</strong> to upload. You can also paste a link to the file below.</p>
             <input type="url" id="urlInput" placeholder="Paste link here" pattern="/http.*csv/gi"></input>
         </div>
     </div>
