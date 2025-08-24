@@ -96,6 +96,11 @@ function shuffle(array) {
   return array;
 }
 
+function showError(e) {
+    let errDiv = document.getElementById("err-message")
+    errDiv.style.display = "";
+	errDiv.innerHTML = "Unexpected error: " + e;
+}
 
 /**
  * Reformat the hwinfo time to be more legible, and convert to elapsed time
@@ -144,6 +149,8 @@ function formatTime(unformattedTime) {
   }
   return formattedTime;
 }
+
+showError("foo");
 
 /**
  * Create a new graph in the specified div
@@ -213,17 +220,23 @@ export async function parseCSV(
   // just delete *all of the charts*
   document.getElementById("chartDiv").replaceChildren();
   const fileAsBuffer = await file.arrayBuffer();
-  const csvResults = parse_csv(new Uint8Array(fileAsBuffer));
-  csvResults.forEach((value, key) => {
-    parsedData[key] = value;
-  });
+  try {
+      const csvResults = parse_csv(new Uint8Array(fileAsBuffer));
+      csvResults.forEach((value, key) => {
+	parsedData[key] = value;
+      });
+  } catch (e) {
+    console.error(e);
+    showError(e);
+    document.getElementById("loadingIcon").style.display = "none";
+  }
   // modify the "Time" key to display nicely rendered times
   parsedData["Time"] = formatTime(parsedData["Time"]);
   console.timeEnd("CSV parsing time");
   makeSearchResults();
   buildGraphs();
   //hide the loading icon
-  //document.getElementById("loadingIcon").style.display = "none";
+  document.getElementById("loadingIcon").style.display = "none";
 }
 
 // if a file is uploaded using the upload button, do the thing

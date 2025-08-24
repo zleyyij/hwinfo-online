@@ -271,7 +271,14 @@ input[type="checkbox"] {
     width: 100%;
 }
 
-
+#err-message {
+    background-color: #bf616a;
+    padding: 1rem;
+    border-radius: 5px;
+    margin: 2rem;
+    margin-left: 50%;
+    font-family: monospace;
+}
 
 /*Charts*/
 .charts {
